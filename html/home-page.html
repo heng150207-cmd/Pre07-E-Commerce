@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cartora</title>
+ <link href="../src/output.css" rel="stylesheet">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body class="min-h-screen flex flex-col bg-[#F5F2FB] overflow-x-hidden">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="w-[95%] mx-auto mt-[0.5%] bg-white rounded-3xl border border-gray-200 shadow-xl relative z-50">
+    <div class="h-[70px] md:h-[95px] flex items-center justify-between px-4 sm:px-6 md:px-10">
+
+      <!-- Logo + links -->
+      <div class="flex items-center gap-4 md:gap-14">
+        <span class="font-serif text-2xl sm:text-3xl md:text-[36px] tracking-wide text-gray-900">CARTORA</span>
+        <span class="hidden md:block h-6 w-px bg-gray-200"></span>
+
+        <nav class="hidden md:flex items-center gap-16 text-x font-medium tracking-wide text-gray-700">
+          <a href="#" class="hover:text-brand-purple transition-colors">Products</a>
+          <a href="#" class="hover:text-brand-purple transition-colors">About Us</a>
+        </nav>
+      </div>
+      
+      <!-- Right cluster -->
+      <div class="flex items-center gap-3 sm:gap-5 md:gap-10">
+
+        <label class="hidden md:flex items-center gap-3 bg-gray-100 rounded-2xl px-6 py-4 w-56 lg:w-96">
+          <input type="text" placeholder="search......"
+            class="bg-transparent outline-none text-sm w-full placeholder-gray-400" />
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </label>
+
+        <button class="hidden md:inline-flex text-gray-800 hover:text-brand-purple transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+          </svg>
+        </button>
+
+        <button class="text-gray-800 hover:text-brand-purple transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+          </svg>
+        </button>
+
+        <button class="hidden md:flex items-center gap-1.5 text-base text-gray-800 hover:text-brand-purple transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Login
+        </button>
+
+        <button class="hidden md:inline-flex text-gray-800 hover:text-brand-purple transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- Hamburger toggle: tablet + phone only -->
+        <button id="menuToggle" aria-label="Open menu" aria-expanded="false" class="md:hidden text-gray-800 hover:text-brand-purple transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile / tablet dropdown menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 px-5 py-5 space-y-5">
+      <label class="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-3">
+        <input type="text" placeholder="search......"
+          class="bg-transparent outline-none text-sm w-full placeholder-gray-400" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </label>
+
+      <nav class="flex flex-col gap-4 text-base font-medium tracking-wide text-gray-700">
+        <a href="#" class="hover:text-brand-purple transition-colors">Products</a>
+        <a href="#" class="hover:text-brand-purple transition-colors">About Us</a>
+        <a href="#" class="flex items-center gap-2 hover:text-brand-purple transition-colors">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Login
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="w-full flex-1 flex flex-col lg:flex-row items-center">
+    <div class="max-w-[1440px] w-full mx-auto flex-1 flex flex-col lg:flex-row items-center gap-4">
+
+    <!-- LEFT: copy -->
+    <div class="w-full lg:w-1/2 px-5 sm:px-8 lg:pl-14 pt-6 lg:pt-4 text-center lg:text-left">
+
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.15] sm:leading-[1.1] lg:leading-[1.05] text-gray-900 max-w-[600px] mx-auto lg:mx-0">
+        Discover What
+        <span class="text-brand-purple">Inspires You.</span>
+      </h1>
+
+      <p class="mt-5 sm:mt-8 text-base sm:text-lg lg:text-xl text-gray-500 leading-relaxed max-w-[520px] mx-auto lg:mx-0">
+        Explore thousands of carefully selected products across every category, all designed to match your lifestyle.
+      </p>
+
+      <div class="mt-6 sm:mt-9 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-7">
+        <button class="bg-[#FF7A1A] hover:bg-[#e0650d] transition-colors text-white text-base sm:text-lg lg:text-xl font-semibold px-8 sm:px-12 lg:px-16 py-3.5 sm:py-4 lg:py-5 rounded-2xl shadow-lg">
+          Shop Now
+        </button>
+        <a href="#" class="text-base sm:text-lg lg:text-xl font-semibold text-gray-800 hover:text-brand-purple transition-colors">
+          Explore Collection
+        </a>
+      </div>
+
+      <div class="mt-8 sm:mt-14 flex items-center justify-center lg:justify-start gap-4">
+        <div class="flex -space-x-3">
+          <span class="w-10 h-10 rounded-full bg-gray-300 ring-2 ring-white"></span>
+          <span class="w-10 h-10 rounded-full bg-gray-400 ring-2 ring-white"></span>
+          <span class="w-10 h-10 rounded-full bg-gray-500 ring-2 ring-white"></span>
+        </div>
+
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-6 text-brand-purple hidden sm:block" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <path d="M2 4 C 15 2, 25 20, 38 18" stroke-dasharray="2 4"></path>
+          <path d="M31 12 L38 18 L30 20"></path>
+        </svg>
+
+        <span class="text-sm text-gray-500">Customers 1000+ review</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: single composite image, bleeds to the edge -->
+    <div class="w-full lg:w-1/2 flex justify-center lg:justify-end mt-8 lg:mt-0">
+      <img
+        src="../images/daknvhomePage.png"
+        alt="Cartora hero: model with featured product highlights"
+        class="h-[100vh] w-auto scale-120 object-contain object-right"
+      />
+    </div>
+
+    </div>
+  </section>
+
+<section data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out px-6 md:px-16 py-14">
+
+    <div class="flex items-center justify-between mb-8">
+
+        <h2 class="text-3xl font-extrabold text-violet-700">
+            New Arrivals
+        </h2>
+
+        <div class="flex gap-3">
+
+            <button id="prevBtn"
+                class="w-11 h-11 rounded-full bg-white shadow hover:bg-violet-600 hover:text-white transition">
+                &#10094;
+            </button>
+
+            <button id="nextBtn"
+                class="w-11 h-11 rounded-full bg-white shadow hover:bg-violet-600 hover:text-white transition">
+                &#10095;
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ================= PAGE 1 ================= -->
+
+    <div id="page1" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+
+        <!-- Card 1 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/asus-vivo-book15.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Paste your Card 1 here -->
+
+        <!-- Card 2 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/image 37 (1).png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Paste your Card 2 here -->
+
+        <!-- Card 3 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/image 37 (2).png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Paste your Card 3 here -->
+
+        <!-- Card 4 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/image 37 (4).png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Paste your Card 4 here -->
+
+    </div>
+
+    <!-- ================= PAGE 2 ================= -->
+
+    <div id="page2" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+
+        <!-- Card 5 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Paste another card -->
+
+        <!-- Card 6 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Paste another card -->
+
+        <!-- Card 7 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Paste another card -->
+
+        <!-- Card 8 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Paste another card -->
+
+    </div>
+
+    <!-- ================= PAGE 3 ================= -->
+
+    <div id="page3" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+
+        <!-- Card 9 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 10 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 11 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 12 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+
+    </div>
+
+</section>
+<section data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out px-6 md:px-16 py-14">
+
+    <div class="flex items-center justify-between mb-8">
+
+        <h2 class="text-3xl font-extrabold text-violet-700">
+            Best Seller
+        </h2>
+
+        <div class="flex gap-3">
+
+            <button id="prevBtn2"
+                class="w-11 h-11 rounded-full bg-white shadow hover:bg-violet-600 hover:text-white transition">
+                &#10094;
+            </button>
+
+            <button id="nextBtn2"
+                class="w-11 h-11 rounded-full bg-white shadow hover:bg-violet-600 hover:text-white transition">
+                &#10095;
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- ================= PAGE 1 ================= -->
+
+    <div id="bspage1" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+
+        <!-- Card 1 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/asus-vivo-book15.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 2 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/image 37 (1).png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 3 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/image 37 (2).png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 4 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/image 37 (4).png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= PAGE 2 ================= -->
+
+    <div id="bspage2" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+
+        <!-- Card 5 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 6 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 7 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 8 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= PAGE 3 ================= -->
+
+    <div id="bspage3" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+
+        <!-- Card 9 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 10 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 11 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+        <!-- Card 12 -->
+               <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+</section>
+
+   <section data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out w-full bg-[#F5F3F8] grid grid-cols-1 lg:grid-cols-12 min-h-[500px] overflow-hidden">
+    
+    <!-- LEFT CONTENT AREA -->
+    <div class="lg:col-span-5 flex flex-col justify-center px-8 md:px-16 py-12 lg:py-16 space-y-6">
+      
+      <!-- SUBTITLE -->
+      <span class="text-[#8B5CF6] font-semibold text-base md:text-lg tracking-wide">
+        Level Up Your Life
+      </span>
+
+      <!-- TITLE -->
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#0F172A] leading-tight">
+        Style, Tech & Living
+      </h1>
+
+      <!-- DESCRIPTION -->
+      <p class="text-slate-600 text-base md:text-lg leading-relaxed max-w-md font-normal">
+        Everything you need in one place. Explore high-end gadgets, trending style, and smart home appliances now.
+      </p>
+
+      <!-- BUTTON -->
+      <div class="pt-2">
+        <a href="#" class="inline-block bg-[#FF7A1A] hover:bg-[#e0650d] text-white font-bold text-base md:text-lg px-8 py-3.5 rounded-xl shadow-md transition-all duration-200 transform hover:-translate-y-0.5">
+          Explore More
+        </a>
+      </div>
+
+    </div>
+
+    <!-- RIGHT IMAGE BANNER AREA -->
+    <div class="lg:col-span-7 relative flex items-end justify-center bg-cover bg-center overflow-hidden min-h-[350px] lg:min-h-full">
+      
+      <img src="../images/hero-section2.png" alt="Style, Tech & Living Products" class="w-full h-full object-cover object-center">
+
+    </div>
+
+  </section>
+
+  <!-- Best Seller -->
+  <section data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out px-6 md:px-16 py-14">
+    <div class="flex items-center justify-between">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-violet-700">Best Seller</h2>
+      <a href="#" class="text-violet-600 font-medium hover:underline flex items-center gap-1">
+        view all
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+
+      <!-- Best Seller Card 1 -->
+      <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+      <!-- Best Seller Card 2 -->
+      <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+      <!-- Best Seller Card 3 -->
+      <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+      <!-- Best Seller Card 4 -->
+      <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+
+      <!-- Best Seller Card 5 -->
+      <div class="relative flex w-full flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+        <a class="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl bg-gray-100 items-center justify-center p-4" href="#">
+          <img class="max-h-full max-w-full object-contain" src="../images/product-asus-vivobook.png" alt="ASUS VivoBook 15" />
+          <button class="absolute top-3 right-3 z-10 rounded-full bg-white/80 p-2 text-gray-500 hover:text-red-500 backdrop-blur-sm transition-colors" aria-label="Add to wishlist">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 21.364l-7.682-8.682a4.5 4.5 0 010-6.364z" />
+            </svg>
+          </button>
+        </a>
+        <div class="mt-4 px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl tracking-tight text-slate-900">ASUS VivoBook 15</h5>
+          </a>
+          <div class="mt-2 mb-5 flex items-center justify-between">
+            <p>
+              <span class="text-3xl font-bold text-slate-900">$1200.32</span>
+            </p>
+            <div class="flex items-center">
+              <svg aria-hidden="true" class="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+              </svg>
+              <span class="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+            </div>
+          </div>
+          <a href="#" class="flex items-center justify-center rounded-md bg-orange-500 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-orange-600 focus:outline-none focus:ring-4 focus:ring-orange-300 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            Add to cart
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- ==================== PART 3: PROMO BANNERS & REVIEWS ==================== -->
+  <section class="max-w-7xl mx-auto px-6 md:px-12 py-12 space-y-20 w-full">
+    
+     <!-- Promo Grid Wrapper -->
+  <div data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl w-full mx-auto">
+
+    <!-- Card 1 (Blue/Headphones) -->
+    <div class="relative bg-[#dbe8fd] rounded-2xl p-6 sm:p-8 flex items-center justify-between overflow-hidden shadow-sm hover:shadow-md transition-shadow h-[220px]">
+      <!-- Content Left -->
+      <div class="flex flex-col justify-between h-full z-10 max-w-[55%]">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 leading-tight">
+            Sound That<br />Moves You
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-600 mt-2 line-clamp-2">
+            Premium audio experience for every moment.
+          </p>
+        </div>
+        <a href="#" class="inline-block bg-[#ff7315] hover:bg-[#e05f02] text-white font-semibold text-xs sm:text-sm py-2.5 px-5 rounded-xl transition-colors w-max active:scale-95">
+          Shop Now
+        </a>
+      </div>
+      <!-- Image Right -->
+      <div class="absolute -right-4 h-full flex items-center justify-center">
+        <img 
+          src="../images/headset.png" 
+          alt="Headphones" 
+          class="object-contain max-h-[90%] drop-shadow-md"
+        />
+      </div>
+    </div>
+
+    <!-- Card 2 (Green/Camera) -->
+    <div class="relative bg-[#e2f0c8] rounded-2xl p-6 sm:p-8 flex items-center justify-between overflow-hidden shadow-sm hover:shadow-md transition-shadow h-[220px]">
+      <!-- Content Left -->
+      <div class="flex flex-col justify-between h-full z-10 max-w-[55%]">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 leading-tight">
+            Capture Every<br />Detail.
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-600 mt-2 line-clamp-2">
+            Professional Cameras for Professional
+          </p>
+        </div>
+        <a href="#" class="inline-block bg-[#ff7315] hover:bg-[#e05f02] text-white font-semibold text-xs sm:text-sm py-2.5 px-5 rounded-xl transition-colors w-max active:scale-95">
+          Shop Now
+        </a>
+      </div>
+      <!-- Image Right -->
+      <div class="absolute -right-2 h-full flex items-center justify-center">
+        <img 
+          src="../images/camera.png" 
+          alt="Camera" 
+          class="object-contain max-h-[85%] drop-shadow-md"
+        />
+      </div>
+    </div>
+
+    <!-- Card 3 (Green/Camera) -->
+    <div class="relative bg-[#e2f0c8] rounded-2xl p-6 sm:p-8 flex items-center justify-between overflow-hidden shadow-sm hover:shadow-md transition-shadow h-[220px]">
+      <!-- Content Left -->
+      <div class="flex flex-col justify-between h-full z-10 max-w-[55%]">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 leading-tight">
+            Capture Every<br />Detail.
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-600 mt-2 line-clamp-2">
+            Professional Cameras for Professional
+          </p>
+        </div>
+        <a href="#" class="inline-block bg-[#ff7315] hover:bg-[#e05f02] text-white font-semibold text-xs sm:text-sm py-2.5 px-5 rounded-xl transition-colors w-max active:scale-95">
+          Shop Now
+        </a>
+      </div>
+      <!-- Image Right -->
+       <div class="absolute -right-2 h-full flex items-center justify-center">
+        <img 
+          src="../images/camera.png" 
+          alt="Camera" 
+          class="object-contain max-h-[85%] drop-shadow-md"
+        />
+      </div>
+    </div>
+
+    <!-- Card 4 (Blue/Headphones) -->
+    <div class="relative bg-[#dbe8fd] rounded-2xl p-6 sm:p-8 flex items-center justify-between overflow-hidden shadow-sm hover:shadow-md transition-shadow h-[220px]">
+      <!-- Content Left -->
+      <div class="flex flex-col justify-between h-full z-10 max-w-[55%]">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 leading-tight">
+            Sound That<br />Moves You
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-600 mt-2 line-clamp-2">
+            Premium audio experience for every moment.
+          </p>
+        </div>
+        <a href="#" class="inline-block bg-[#ff7315] hover:bg-[#e05f02] text-white font-semibold text-xs sm:text-sm py-2.5 px-5 rounded-xl transition-colors w-max active:scale-95">
+          Shop Now
+        </a>
+      </div>
+      <!-- Image Right -->
+      <div class="absolute -right-3 h-full flex items-center justify-center">
+        <img 
+          src="../images/headset.png" 
+          alt="Headphones" 
+          class="object-contain max-h-[90%] drop-shadow-md"
+        />
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- Customer Reviews -->
+    <div class="text-center space-y-10 pt-4">
+      <h2 class="text-3xl font-extrabold text-[#7C3AED]">
+        Customer Review
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Review 1: David -->
+         <div data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out">
+        <div class="bg-white rounded-2xl p-6 shadow-lg shadow-slate-100 flex flex-col items-center text-center space-y-4 border border-slate-50">
+          <img src="https://i.pravatar.cc/150?img=12" alt="David" class="w-24 h-24 rounded-full object-cover border-2 border-purple-200">
+          <div class="flex space-x-1 text-amber-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-slate-500 text-xs leading-relaxed max-w-xs">
+            Professional team, smooth checkout experience, and great results. IS-Shop is top-tier!
+          </p>
+          <h4 class="text-[#FF7A1A] font-bold text-base pt-2">David</h4>
+        </div>
+        </div>
+        <!-- Review 2: Emma -->
+        <div data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out">
+        <div class="bg-white rounded-2xl p-6 shadow-lg shadow-slate-100 flex flex-col items-center text-center space-y-4 border border-slate-50">
+          <img src="https://i.pravatar.cc/150?img=32" alt="Emma" class="w-24 h-24 rounded-full object-cover border-2 border-purple-200">
+          <div class="flex space-x-1 text-amber-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-slate-500 text-xs leading-relaxed max-w-xs">
+            Professional team, smooth checkout experience, and great results. IS-Shop is top-tier!
+          </p>
+          <h4 class="text-[#FF7A1A] font-bold text-base pt-2">Emma</h4>
+        </div>
+        </div>
+
+        <!-- Review 3: Lily -->
+        <div data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out">
+        <div class="bg-white rounded-2xl p-6 shadow-lg shadow-slate-100 flex flex-col items-center text-center space-y-4 border border-slate-50">
+          <img src="https://i.pravatar.cc/150?img=47" alt="Lily" class="w-24 h-24 rounded-full object-cover border-2 border-purple-200">
+          <div class="flex space-x-1 text-amber-500 text-sm">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="text-slate-500 text-xs leading-relaxed max-w-xs">
+            Professional team, smooth checkout experience, and great results. IS-Shop is top-tier!
+          </p>
+          <h4 class="text-[#FF7A1A] font-bold text-base pt-2">Lily</h4>
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- ==================== FOOTER SECTION ==================== -->
+   <div data-reveal class="opacity-0 translate-y-10 transition-all duration-700 ease-out">
+ <footer class="bg-[#210D4A] text-white pt-16 pb-8 px-6 md:px-16 mt-auto w-full">
+  <div class="max-w-7xl mx-auto">
+    
+    <!-- TOP GRID CONTENT -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12">
+      
+      <!-- Column 1: Brand Info & Socials (4 Cols) -->
+      <div class="lg:col-span-4 space-y-6">
+        <!-- Logo + Brand Name -->
+        <div class="flex items-center space-x-3">
+          <img src="../images/logo-cartora.png" alt="CARTORA Logo" class="h-16 w-16 object-contain" id="custom-cartora-logo">
+          <span class="text-2xl font-bold tracking-wider uppercase font-serif">CARTORA</span>
+        </div>
+
+        <p class="text-slate-300 text-sm leading-relaxed max-w-sm">
+          Your one-stop destination for top quality, unbeatable deals, and fast delivery. Shop smart, anytime, anywhere.
+        </p>
+
+        <!-- Social Media Buttons -->
+        <div class="flex items-center space-x-3 pt-2">
+          <!-- Facebook -->
+          <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-full bg-[#FF6B00] hover:bg-[#e05e00] flex items-center justify-center text-white transition">
+            <i class="fa-brands fa-facebook-f text-lg"></i>
+          </a>
+          <!-- YouTube -->
+          <a href="#" aria-label="YouTube" class="w-10 h-10 rounded-full bg-[#FF6B00] hover:bg-[#e05e00] flex items-center justify-center text-white transition">
+            <i class="fa-brands fa-youtube text-lg"></i>
+          </a>
+          <!-- Google -->
+          <a href="#" aria-label="Google" class="w-10 h-10 rounded-full bg-[#FF6B00] hover:bg-[#e05e00] flex items-center justify-center text-white transition">
+            <i class="fa-brands fa-google text-lg"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 2: Company Links (2 Cols) -->
+      <div class="lg:col-span-2 space-y-4">
+        <h4 class="text-sm font-bold tracking-wider text-slate-200 uppercase">COMPANY</h4>
+        <ul class="space-y-3 text-sm font-medium text-slate-300">
+          <li><a href="#" class="hover:text-purple-300 transition">Home</a></li>
+          <li><a href="#" class="hover:text-purple-300 transition">Products</a></li>
+          <li><a href="#" class="hover:text-purple-300 transition">Browse</a></li>
+          <li><a href="#" class="hover:text-purple-300 transition">About Us</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Explore Links (2 Cols) -->
+      <div class="lg:col-span-2 space-y-4">
+        <h4 class="text-sm font-bold tracking-wider text-slate-200 uppercase">EXPLORE</h4>
+        <ul class="space-y-3 text-sm font-medium text-slate-300">
+          <li><a href="#" class="hover:text-purple-300 transition">Electronic</a></li>
+          <li><a href="#" class="hover:text-purple-300 transition">Furniture</a></li>
+          <li><a href="#" class="hover:text-purple-300 transition">Fashion</a></li>
+          <li><a href="#" class="hover:text-purple-300 transition">Kitchen</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Contact Info (2 Cols) -->
+      <div class="lg:col-span-2 space-y-4">
+        <h4 class="text-sm font-bold tracking-wider text-slate-200 uppercase">CONTACT</h4>
+        <div class="space-y-3 text-sm font-medium text-slate-300">
+          <div>
+            <p class="text-slate-400 text-xs">Call:</p>
+            <p class="mt-0.5">(+885)99 666 777</p>
+          </div>
+          <div>
+            <p class="text-slate-400 text-xs">Gmail:</p>
+            <p class="mt-0.5 break-all">istadshop168@gmail.com</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 5: Organize By ISTAD (2 Cols) -->
+      <div class="lg:col-span-2 space-y-4 text-center lg:text-left">
+        <h4 class="text-sm font-bold tracking-wider text-slate-200 uppercase">ORGANIZE BY ISTAD</h4>
+        
+        <!-- ISTAD Logo -->
+        <div class="pt-1 flex justify-center lg:justify-start">
+          <img src="../images/New Logo iSTAD-12.png" alt="ISTAD Logo" class="w-36 h-36 object-contain rounded-full border-purple-400/30 p-1">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM BAR / COPYRIGHT -->
+    <div class="border-t border-purple-900/60 pt-6 flex flex-col md:flex-row items-center justify-between text-xs text-slate-400 space-y-4 md:space-y-0">
+      <div>
+        <p>&copy; Copyright by CodeUI. All rights reserved.</p>
+      </div>
+      <div class="flex items-center space-x-6">
+        <a href="#" class="hover:text-slate-200 transition">Privacy Policy</a>
+        <a href="#" class="hover:text-slate-200 transition">Terms of Use</a>
+        <a href="#" class="hover:text-slate-200 transition">Legal</a>
+        <a href="#" class="hover:text-slate-200 transition">Site Map</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+</div>
+
+  <!-- All page JS lives in one external file -->
+  <script src="../js/main.js"></script>
+</body>
+</html>
