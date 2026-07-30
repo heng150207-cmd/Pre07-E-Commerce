@@ -15,7 +15,6 @@ export function createFormComponent() {
           required
         />
       </div>
-  
       <!-- price -->
       <div class="mb-5">
         <label
@@ -74,7 +73,6 @@ export function createFormComponent() {
           required
         />
       </div>
-  
       <!-- submit button -->
       <button
         type="submit"
