@@ -11,75 +11,25 @@
 
 <body class="min-h-screen flex flex-col bg-[#F5F2FB] overflow-x-hidden">
 
-  <!-- ================= NAVBAR ================= -->
-  <header class="w-[95%] mx-auto mt-[0.5%] bg-white rounded-3xl border border-gray-200 shadow-xl relative z-50">
-    <div class="h-[70px] md:h-[95px] flex items-center justify-between px-4 sm:px-6 md:px-10">
+<!-- ================= NAVBAR ================= -->
+<header class="sticky top-2 z-50 w-[95%] mx-auto mt-[0.5%] bg-white rounded-3xl border border-gray-200 shadow-xl">
+  <div class="h-[70px] md:h-[95px] flex items-center justify-between px-4 sm:px-6 md:px-10">
 
-      <!-- Logo + links -->
-      <div class="flex items-center gap-4 md:gap-14">
-        <span class="font-serif text-2xl sm:text-3xl md:text-[36px] tracking-wide text-gray-900">CARTORA</span>
-        <span class="hidden md:block h-6 w-px bg-gray-200"></span>
+    <!-- Logo + links -->
+    <div class="flex items-center gap-4 md:gap-14">
+      <span class="font-serif text-2xl sm:text-3xl md:text-[36px] tracking-wide text-gray-900">CARTORA</span>
+      <span class="hidden md:block h-6 w-px bg-gray-200"></span>
 
-        <nav class="hidden md:flex items-center gap-16 text-x font-medium tracking-wide text-gray-700">
-          <a href="#" class="hover:text-brand-purple transition-colors">Products</a>
-          <a href="#" class="hover:text-brand-purple transition-colors">About Us</a>
-        </nav>
-      </div>
-      
-      <!-- Right cluster -->
-      <div class="flex items-center gap-3 sm:gap-5 md:gap-10">
-
-        <label class="hidden md:flex items-center gap-3 bg-gray-100 rounded-2xl px-6 py-4 w-56 lg:w-96">
-          <input type="text" placeholder="search......"
-            class="bg-transparent outline-none text-sm w-full placeholder-gray-400" />
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="11" cy="11" r="7"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </label>
-
-        <button class="hidden md:inline-flex text-gray-800 hover:text-brand-purple transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
-          </svg>
-        </button>
-
-        <button class="text-gray-800 hover:text-brand-purple transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
-          </svg>
-        </button>
-
-        <button class="hidden md:flex items-center gap-1.5 text-base text-gray-800 hover:text-brand-purple transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          Login
-        </button>
-
-        <button class="hidden md:inline-flex text-gray-800 hover:text-brand-purple transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-
-        <!-- Hamburger toggle: tablet + phone only -->
-        <button id="menuToggle" aria-label="Open menu" aria-expanded="false" class="md:hidden text-gray-800 hover:text-brand-purple transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-      </div>
+      <nav class="hidden md:flex items-center gap-16 text-x font-medium tracking-wide text-gray-700">
+        <a href="#" class="hover:text-brand-purple transition-colors">Products</a>
+        <a href="#" class="hover:text-brand-purple transition-colors">About Us</a>
+      </nav>
     </div>
+    
+    <!-- Right cluster -->
+    <div class="flex items-center gap-3 sm:gap-5 md:gap-10">
 
-    <!-- Mobile / tablet dropdown menu -->
-    <div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 px-5 py-5 space-y-5">
-      <label class="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-3">
+      <label class="hidden md:flex items-center gap-3 bg-gray-100 rounded-2xl px-6 py-4 w-56 lg:w-96">
         <input type="text" placeholder="search......"
           class="bg-transparent outline-none text-sm w-full placeholder-gray-400" />
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -88,19 +38,69 @@
         </svg>
       </label>
 
-      <nav class="flex flex-col gap-4 text-base font-medium tracking-wide text-gray-700">
-        <a href="#" class="hover:text-brand-purple transition-colors">Products</a>
-        <a href="#" class="hover:text-brand-purple transition-colors">About Us</a>
-        <a href="#" class="flex items-center gap-2 hover:text-brand-purple transition-colors">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          Login
-        </a>
-      </nav>
+      <button class="hidden md:inline-flex text-gray-800 hover:text-brand-purple transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+        </svg>
+      </button>
+
+      <button class="text-gray-800 hover:text-brand-purple transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+        </svg>
+      </button>
+
+      <button class="hidden md:flex items-center gap-1.5 text-base text-gray-800 hover:text-brand-purple transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Login
+      </button>
+
+      <button class="hidden md:inline-flex text-gray-800 hover:text-brand-purple transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <!-- Hamburger toggle: tablet + phone only -->
+      <button id="menuToggle" aria-label="Open menu" aria-expanded="false" class="md:hidden text-gray-800 hover:text-brand-purple transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
     </div>
-  </header>
+  </div>
+
+  <!-- Mobile / tablet dropdown menu -->
+  <div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 px-5 py-5 space-y-5">
+    <label class="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-3">
+      <input type="text" placeholder="search......"
+        class="bg-transparent outline-none text-sm w-full placeholder-gray-400" />
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </label>
+
+    <nav class="flex flex-col gap-4 text-base font-medium tracking-wide text-gray-700">
+      <a href="#" class="hover:text-brand-purple transition-colors">Products</a>
+      <a href="#" class="hover:text-brand-purple transition-colors">About Us</a>
+      <a href="#" class="flex items-center gap-2 hover:text-brand-purple transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Login
+      </a>
+    </nav>
+  </div>
+</header>
 
   <!-- ================= HERO ================= -->
   <section class="w-full flex-1 flex flex-col lg:flex-row items-center">
@@ -129,9 +129,23 @@
 
       <div class="mt-8 sm:mt-14 flex items-center justify-center lg:justify-start gap-4">
         <div class="flex -space-x-3">
-          <span class="w-10 h-10 rounded-full bg-gray-300 ring-2 ring-white"></span>
-          <span class="w-10 h-10 rounded-full bg-gray-400 ring-2 ring-white"></span>
-          <span class="w-10 h-10 rounded-full bg-gray-500 ring-2 ring-white"></span>
+          <div class="flex -space-x-3">
+    <img 
+      class="w-10 h-10 rounded-full object-cover ring-2 ring-white" 
+      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" 
+      alt="User avatar 1"
+    />
+    <img 
+      class="w-10 h-10 rounded-full object-cover ring-2 ring-white" 
+      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" 
+      alt="User avatar 2"
+    />
+    <img 
+      class="w-10 h-10 rounded-full object-cover ring-2 ring-white" 
+      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" 
+      alt="User avatar 3"
+    />
+  </div>
         </div>
 
         <svg xmlns="http://www.w3.org/2000/svg" class="w-9 h-6 text-brand-purple hidden sm:block" viewBox="0 0 40 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
