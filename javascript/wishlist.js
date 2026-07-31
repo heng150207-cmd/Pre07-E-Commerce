@@ -13,8 +13,6 @@
     const emptyState = document.getElementById('empty-state');
     const actionBar = document.getElementById('action-bar');
     const selectAllCheckbox = document.getElementById('select-all');
-    const totalPriceEl = document.getElementById('total-price');
-    const selectedCountEl = document.getElementById('selected-count');
 
     // Render Wishlist
     function render() {
@@ -68,18 +66,6 @@
       updateCalculations();
     }
 
-    // Helper Functions
-    function updateQty(id, change) {
-      wishlistItems = wishlistItems.map(item => {
-        if (item.id === id) {
-          const newQty = item.quantity + change;
-          return { ...item, quantity: newQty > 0 ? newQty : 1 };
-        }
-        return item;
-      });
-      render();
-    }
-
     function toggleSelect(id) {
       wishlistItems = wishlistItems.map(item => 
         item.id === id ? { ...item, selected: !item.selected } : item
@@ -90,17 +76,6 @@
     function removeItem(id) {
       wishlistItems = wishlistItems.filter(item => item.id !== id);
       render();
-    }
-
-    function updateCalculations() {
-      const selectedItems = wishlistItems.filter(item => item.selected);
-      const total = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      
-      totalPriceEl.textContent = `$${total.toFixed(2)}`;
-      selectedCountEl.textContent = selectedItems.length;
-
-      // Select All Checkbox state
-      selectAllCheckbox.checked = wishlistItems.length > 0 && wishlistItems.every(i => i.selected);
     }
 
     // Event Listeners
