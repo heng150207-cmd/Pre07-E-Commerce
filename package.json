@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "name": "cartora",
   "version": "1.0.0",
   "description": "Cartora — e-commerce landing page (HTML, CSS, JavaScript)",
@@ -12,5 +13,13 @@
   "license": "ISC",
   "devDependencies": {
     "live-server": "^1.2.2"
+=======
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
+    "tailwindcss": "^4.3.3"
+  },
+  "scripts": {
+    "dev":"npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
+>>>>>>> c7687c1f86404fef76eec90feb1829199911da45
   }
 }
