@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartora — Elevate Your Space Beautifully</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+
+<!-- ICON SPRITE (Milano-inspired thin-line icons) -->
+<svg width="0" height="0" style="position:absolute">
+<defs>
+<symbol id="ico-headphones" viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0116 0v1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="13" width="4" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="17" y="13" width="4" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="ico-lamp" viewBox="0 0 24 24"><path d="M7 4h10l3 7H4l3-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 11v6M9 21h6l-1.2-4H10.2L9 21z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-hanger" viewBox="0 0 24 24"><path d="M12 3.5a1.7 1.7 0 110 3.4M12 7l-8 6h16l-8-6zM4 17h16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-bag" viewBox="0 0 24 24"><path d="M6 8h12l1 12H5L6 8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 016 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="ico-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18 6l-1.5 1.5M7.5 16.5L6 18M18 18l-1.5-1.5M7.5 7.5L6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-tag" viewBox="0 0 24 24"><path d="M11 4h6a2 2 0 012 2v6l-9 9-8-8 9-9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="15.5" cy="8.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="ico-heart" viewBox="0 0 24 24"><path d="M12 20.2S3.6 15 3.6 8.9A4.6 4.6 0 0 1 12 6.2a4.6 4.6 0 0 1 8.4 2.7c0 6.1-8.4 11.3-8.4 11.3Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="ico-box" viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4-9-4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 8v8l9 4 9-4V8M12 12v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-star" viewBox="0 0 24 24"><path d="M12 2l2.6 6.6L21 9.2l-5.2 4.4L17.5 21 12 17l-5.5 4 1.7-7.4L3 9.2l6.4-.6L12 2z" fill="currentColor"/></symbol>
+  <symbol id="ico-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3z" fill="currentColor"/></symbol>
+  <symbol id="ico-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-cart" viewBox="0 0 24 24"><path d="M3 4h2l2.2 11h10.6L20 8H6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19.5" r="1.4" fill="currentColor"/><circle cx="17" cy="19.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="ico-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c1.2-4 4-6 7-6s5.8 2 7 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4 8.5 8.5 0 1020 14.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-chev-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-chev-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-chev-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="ico-kitchen" viewBox="0 0 24 24"><path d="M5 4v9a5 5 0 0010 0V4M8 4v6M12 4v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M19 4v16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17 4h4v4a2 2 0 01-2 2 2 2 0 01-2-2V4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M7 8h10v3a5 5 0 01-10 0V8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 16v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-shirt" viewBox="0 0 24 24"><path d="M8 4L4 7l2 3 2-1v11h8V9l2 1 2-3-4-3-2 2h-4L8 4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-sofa" viewBox="0 0 24 24"><path d="M4 12v5h16v-5M4 12a2 2 0 012-2h12a2 2 0 012 2M6 10V8a2 2 0 012-2h8a2 2 0 012 2v2M5 15v3M19 15v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="ico-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 6l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-phone" viewBox="0 0 24 24"><path d="M5 4h3l1.5 4-2 1.5a12 12 0 006.5 6.5l1.5-2 4 1.5v3a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-mobile" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 18.5h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-tablet-dev" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 18.3h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-controller" viewBox="0 0 24 24"><path d="M6 9h12l2 6.5a2.3 2.3 0 01-3.9 2L14.5 15h-5L7.9 17.5a2.3 2.3 0 01-3.9-2L6 9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.2 11.3v2.4M7 12.5h2.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="17" cy="11.6" r=".9" fill="currentColor"/><circle cx="15.4" cy="13.2" r=".9" fill="currentColor"/></symbol>
+  <symbol id="ico-dress" viewBox="0 0 24 24"><path d="M9.5 3h5l1 3-1.3 1 2.3 12H7.5l2.3-12L8.5 6l1-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+</defs>
+</svg>
+
+<!-- ---------------- HEADER ---------------- -->
+<header>
+  <div class="nav">
+    <div class="logo"><img src="src/assets/logo.png" alt="Cartora logo" class="logo-img"> CARTORA</div>
+    <nav class="nav-links">
+      <a href="#">Products</a>
+      <a href="#">Browse</a>
+      <a href="#">About Us</a>
+    </nav>
+    <div class="search-box">
+      <svg width="16" height="16"><use href="#ico-search"/></svg>
+      <input type="text" placeholder="Search...">
+    </div>
+    <div class="nav-icons">
+      <button class="icon-btn" aria-label="Cart"><svg width="18" height="18"><use href="#ico-cart"/></svg></button>
+      <a class="login-link"><svg width="18" height="18"><use href="#ico-user"/></svg><span>Login</span></a>
+      <button class="icon-btn" aria-label="Toggle theme"><svg width="17" height="17"><use href="#ico-moon"/></svg></button>
+    </div>
+    <button class="burger"><svg width="22" height="22"><use href="#ico-menu"/></svg></button>
+  </div>
+</header>
+
+<!-- ---------------- HERO ---------------- -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="eyebrow"><svg width="14" height="14"><use href="#ico-sparkle"/></svg> Trending Collections</span>
+      <h1>Elevate Your<br>Space <span>Beautifully</span></h1>
+      <p>Discover stylish pieces for your home, electronics, fashion &amp; kitchen that blend comfort, function &amp; elegance.</p>
+      <a href="#popular" class="btn">Explore More <svg width="15" height="15"><use href="#ico-arrow"/></svg></a>
+
+      <div class="quick-cats">
+        <div class="quick-cat" title="Audio"><svg width="22" height="22"><use href="#ico-headphones"/></svg></div>
+        <div class="quick-cat" title="Lighting"><svg width="22" height="22"><use href="#ico-lamp"/></svg></div>
+        <div class="quick-cat" title="Fashion"><svg width="22" height="22"><use href="#ico-hanger"/></svg></div>
+        <div class="quick-cat" title="Bags"><svg width="22" height="22"><use href="#ico-bag"/></svg></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-ring"></div>
+      <div class="hero-photo">
+        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=700&q=80" alt="Modern grey lounge chair">
+      </div>
+      <div class="floaty f1"><svg width="22" height="22"><use href="#ico-gear"/></svg></div>
+      <div class="floaty f2"><svg width="22" height="22"><use href="#ico-tag"/></svg></div>
+      <div class="floaty f3"><svg width="22" height="22"><use href="#ico-heart"/></svg></div>
+      <div class="floaty f4"><svg width="22" height="22"><use href="#ico-box"/></svg></div>
+      <svg class="sparkle sp1" width="20" height="20"><use href="#ico-sparkle"/></svg>
+      <svg class="sparkle sp2" width="16" height="16"><use href="#ico-sparkle"/></svg>
+      <svg class="sparkle sp3" width="14" height="14"><use href="#ico-sparkle"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- POPULAR PRODUCTS ---------------- -->
+<section class="products-row wrap" id="popular">
+  <div class="row-head">
+    <h2 class="section-title">Popular Products</h2>
+  </div>
+  <div class="grid-4" id="popular-grid"></div>
+</section>
+
+<!-- ---------------- COLLECTIONS ---------------- -->
+<section class="collections wrap">
+  <div class="collections-grid">
+    <div class="collection-card fashion">
+      <div>
+        <h3>Fashion Collection</h3>
+        <p>Discover the latest clothing, shoes, and accessories for every style.</p>
+      </div>
+      <div class="collection-tags">
+        <span class="collection-tag"><span class="tag-ico"><svg width="14" height="14"><use href="#ico-star"/></svg></span>Trendy Style</span>
+        <span class="collection-tag"><span class="tag-ico"><svg width="14" height="14"><use href="#ico-tag"/></svg></span>Premium Quality</span>
+      </div>
+      <img class="collection-photo" src="https://www.redemption.com/cdn/shop/files/24FWRG001TW005_888_5.png?v=1748330844&width=533" alt="Fashion model">
+    </div>
+
+    <div class="collection-card electronics">
+      <div>
+        <h3>Smart Electronics</h3>
+        <p>Phones, tablets, computers, gaming gear, and more.</p>
+      </div>
+      <div class="collection-tags">
+        <span class="collection-tag"><span class="tag-ico"><svg width="14" height="14"><use href="#ico-plug"/></svg></span>Built to Last</span>
+        <span class="collection-tag"><span class="tag-ico"><svg width="14" height="14"><use href="#ico-gear"/></svg></span>Easy to Use</span>
+      </div>
+      <img class="collection-photo" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&q=80" alt="Electronics gear">
+    </div>
+
+    <div class="collection-card kitchen">
+      <div>
+        <h3>Kitchen Essentials</h3>
+        <p>Cook smarter with quality appliances and cookware.</p>
+      </div>
+      <div class="collection-tags">
+        <span class="collection-tag"><span class="tag-ico"><svg width="14" height="14"><use href="#ico-kitchen"/></svg></span>Quality Material</span>
+        <span class="collection-tag"><span class="tag-ico"><svg width="14" height="14"><use href="#ico-box"/></svg></span>Easy to Clean</span>
+      </div>
+      <img class="collection-photo" src="https://images.unsplash.com/photo-1584990347449-a5d9f800a783?w=300&q=80" alt="Kitchen cookware">
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- CATEGORIES + NEW ARRIVALS ---------------- -->
+<section class="cat-arrivals wrap">
+  <div class="cat-arrivals-grid">
+    <div>
+      <h2 class="section-title" style="font-size:20px;margin-bottom:14px;">Categories</h2>
+      <div class="cat-list-card">
+
+        <button class="cat-group-title" data-category="Kitchen">
+          <span class="label-row"><svg class="group-icon" width="18" height="18"><use href="#ico-kitchen"/></svg>Kitchen</span>
+        </button>
+        <hr class="cat-divider">
+
+        <button class="cat-group-title" id="electronicToggle">
+          <span class="label-row"><svg class="group-icon" width="18" height="18"><use href="#ico-plug"/></svg>Electronic</span>
+          <svg id="electronicChevron" class="chevron" width="14" height="14"><use href="#ico-chev-down"/></svg>
+        </button>
+        <ul class="cat-sublist" id="electronicList">
+          <li><button class="cat-item" data-category="Laptop">Laptop</button></li>
+          <li><button class="cat-item" data-category="Mobile">Mobile</button></li>
+          <li><button class="cat-item" data-category="HeadPhone">HeadPhone</button></li>
+          <li><button class="cat-item" data-category="Tablet">Tablet</button></li>
+          <li><button class="cat-item" data-category="Controller">Controller</button></li>
+        </ul>
+        <hr class="cat-divider">
+
+        <button class="cat-group-title" id="fashionToggle">
+          <span class="label-row"><svg class="group-icon" width="18" height="18"><use href="#ico-shirt"/></svg>Fashion</span>
+          <svg id="fashionChevron" class="chevron" width="14" height="14"><use href="#ico-chev-down"/></svg>
+        </button>
+        <ul class="cat-sublist" id="fashionList">
+          <li><button class="cat-item" data-category="MenFashion">Men's Fashion</button></li>
+          <li><button class="cat-item" data-category="WomenFashion">Women's Fashion</button></li>
+        </ul>
+        <hr class="cat-divider">
+
+        <button class="cat-group-title" data-category="Furniture">
+          <span class="label-row"><svg class="group-icon" width="18" height="18"><use href="#ico-sofa"/></svg>Furniture</span>
+        </button>
+
+      </div>
+    </div>
+
+    <div>
+      <div class="arrivals-search">
+        <h2 class="section-title" style="font-size:20px;" id="arrivalsSectionTitle">New Arrivals</h2>
+        <div class="search-box"><svg width="15" height="15"><use href="#ico-search"/></svg><input type="text" id="item-search" placeholder="Search for item"></div>
+      </div>
+      <div class="grid-4-arrivals" id="arrivals-grid"></div>
+      <p id="arrivals-empty" style="display:none;color:var(--muted,#7a7280);font-size:14px;padding:24px 0;">No items found in this category yet.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- BEST SELLER (grid 1) ---------------- -->
+<section class="best-seller wrap">
+  <div class="row-head"><h2 class="section-title">Best Seller</h2></div>
+  <div class="grid-4" id="bestseller-grid-1"></div>
+  <div class="pagination">
+    <button class="page-btn page-arrow" id="page-prev"><svg width="16" height="16"><use href="#ico-chev-left"/></svg></button>
+    <button class="page-btn active" data-page="1">1</button>
+    <button class="page-btn" data-page="2">2</button>
+    <button class="page-btn" data-page="3">3</button>
+    <button class="page-btn page-arrow" id="page-next"><svg width="16" height="16"><use href="#ico-chev-right"/></svg></button>
+  </div>
+</section>
+
+<!-- ---------------- PROMO BANNERS ---------------- -->
+<section class="wrap">
+  <div class="promo-grid">
+    <div class="promo-main">
+      <span class="eyebrow" style="color:#FFC98B;"><svg width="13" height="13"><use href="#ico-sparkle"/></svg> New Arrival · Apple</span>
+      <h2>Top <b>AirPods Pro</b></h2>
+      <p>Best sound and height quality</p>
+      <a href="#" class="btn small">Explore More <svg width="13" height="13"><use href="#ico-arrow"/></svg></a>
+      <img src="./images/airpodspro3side2.png" alt="AirPods Pro">
+    </div>
+    <div class="promo-side">
+      <div class="promo-small ipad">
+        <span class="tag">Top Offer · Apple</span>
+        <h4>iPad Pro 11</h4>
+        <p>Best sell product</p>
+        <img src="https://photos5.appleinsider.com/price_guide/ipad-pro-11-inch-m2-pp-header.png" alt="iPad Pro">
+      </div>
+      <div class="promo-small gamepad">
+        <span class="tag">Best Seller</span>
+        <h4>DualSense PS5</h4>
+        <p>Best choice of the year</p>
+        <img src="https://i5.walmartimages.com/seo/DualSense-wireless-controller-TBD-LE_ff7deb09-f94f-4816-b425-7a8bff429516.bd4f46ab638b5be5ed5bd6761d584de5.png?odnHeight=768&odnWidth=768&odnBg=FFFFFF" alt="PS5 controller">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- BEST SELLER (grid 2, 5 items) ---------------- -->
+
+<!-- ---------------- FEATURE STRIPS ---------------- -->
+<section class="feature-strips wrap">
+  <div class="strip-grid">
+    <div class="strip blue">
+      <div><h4>Sound That Moves You</h4><p>Premium audio experience for every moment.</p></div>
+      <a href="#" class="btn small">Shop Now</a>
+      <img src="https://media.sonos.com/images/znqtjj88/production/6d1891b5f7a2236498c20a2fe895506dc0ba6ab9-2500x2500.png?w=3840&q=100&fit=clip&auto=format" alt="Headphones">
+    </div>
+    <div class="strip green">
+      <div><h4>Capture Every Detail.</h4><p>Professional cameras for professionals.</p></div>
+      <a href="#" class="btn small">Shop Now</a>
+      <img src="https://png.pngtree.com/png-vector/20241119/ourmid/pngtree-a-professional-dslr-camera-with-large-lens-png-image_14495712.png" alt="Camera">
+    </div>
+    <div class="strip green">
+      <div><h4>Capture Every Detail.</h4><p>Professional cameras for professionals.</p></div>
+      <a href="#" class="btn small">Shop Now</a>
+      <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?w=250&q=80" alt="Camera lens">
+    </div>
+    <div class="strip blue">
+      <div><h4>Sound That Moves You</h4><p>Premium audio experience for every moment.</p></div>
+      <a href="#" class="btn small">Shop Now</a>
+      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=250&q=80" alt="Headphones side">
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- RECOMMEND FOR YOU ---------------- -->
+<section class="best-seller wrap">
+  <div class="row-head">
+    <h2 class="section-title">Recommend For You</h2>
+    <a href="#" class="view-all">view all <svg width="12" height="12"><use href="#ico-chev-right"/></svg></a>
+  </div>
+  <div class="grid-5" id="recommend-grid"></div>
+</section>
+
+<!-- ---------------- FOOTER ---------------- -->
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="footer-logo"><img src="src/assets/logo.png" alt="Cartora logo" class="logo-img"> CARTORA</div>
+      <p>Your one-stop destination for top quality, unbeatable deals, and fast delivery. Shop smart, anytime, anywhere.</p>
+      <div class="badge-row">
+        <div class="badge-circle"><svg width="22" height="22"><img src="./images/New Logo iSTAD-12.png"></svg></div>
+        <span style="font-size:12px;color:rgba(255,255,255,.55);">Organized by ISTAD</span>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Products</a></li>
+        <li><a href="#">Browse</a></li>
+        <li><a href="#">About Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Explore</h5>
+      <ul>
+        <li><a href="#">Electronic</a></li>
+        <li><a href="#">Furniture</a></li>
+        <li><a href="#">Fashion</a></li>
+        <li><a href="#">Kitchen</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <ul>
+        <li style="display:flex;align-items:center;gap:8px;"><svg width="15" height="15"><use href="#ico-phone"/></svg>(+885) 99 666 777</li>
+        <li style="display:flex;align-items:center;gap:8px;"><svg width="15" height="15"><use href="#ico-mail"/></svg>istadshop168@gmail.com</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">
+    <span>© Copyright by CodeUI. All rights reserved.</span>
+    <div class="links">
+      <a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Legal</a><a href="#">Site Map</a>
+    </div>
+    <div class="socials">
+      <a href="#" aria-label="Facebook">f</a>
+      <a href="#" aria-label="Instagram">i</a>
+      <a href="#" aria-label="Twitter">t</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><svg width="16" height="16"><use href="#ico-cart"/></svg> Added to cart</div>
+
+<script src="src/script.js"></script>
+</body>
+</html>

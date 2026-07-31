@@ -1,0 +1,16 @@
+{
+  "name": "cartora",
+  "version": "1.0.0",
+  "description": "Cartora — e-commerce landing page (HTML, CSS, JavaScript)",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=5500",
+    "dev": "live-server --port=5500"
+  },
+  "keywords": ["ecommerce", "landing-page", "html", "css", "javascript"],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
