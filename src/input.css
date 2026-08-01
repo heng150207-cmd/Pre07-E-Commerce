@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  --font-poppins: 'Poppins', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --color-cream: #FDF4E9;
+  --color-peach: #FBE6D0;
+  --color-peach2: #F7DCC2;
+  --color-brandorange: #F5841F;
+  --color-brandorangedark: #DD6E0A;
+  --color-brandpurple: #5A2E9E;
+  --color-brandpurpledeep: #472574;
+  --color-brandnavy: #1D1233;
+  --color-brandteal: #AFE0DE;
+  --color-brandolive: #CDBC96;
+  --shadow-soft: 0 22px 40px -18px rgba(36,23,72,.28);
+}

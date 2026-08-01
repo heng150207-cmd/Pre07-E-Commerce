@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartora — Elevate Your Space Beautifully</title>
+<link rel="stylesheet" href="src/output.css">
+<style>
+  body{font-family:'Inter',sans-serif;}
+  h1,h2,h3,h4,.font-display{font-family:'Poppins',sans-serif;}
+  html{scroll-behavior:smooth;}
+  @keyframes spin-slow{to{transform:rotate(360deg);}}
+  .animate-spin-slow{animation:spin-slow 26s linear infinite;}
+  @keyframes float-y{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
+  .animate-float{animation:float-y 5s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.35;transform:scale(.85);}50%{opacity:1;transform:scale(1.1);}}
+  .animate-twinkle{animation:twinkle 2.6s ease-in-out infinite;}
+  .toast{transform:translate(-50%,20px);}
+  .toast.show{transform:translate(-50%,0);opacity:1 !important;}
+</style>
+</head>
+<body class="bg-cream text-brandnavy antialiased overflow-x-hidden">
+
+<!-- ICON SPRITE -->
+<svg width="0" height="0" class="absolute">
+<defs>
+  <symbol id="ico-headphones" viewBox="0 0 24 24"><path d="M4 13v-1a8 8 0 0116 0v1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="3" y="13" width="4" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="17" y="13" width="4" height="7" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="ico-lamp" viewBox="0 0 24 24"><path d="M7 4h10l3 7H4l3-7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 11v6M9 21h6l-1.2-4H10.2L9 21z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-hanger" viewBox="0 0 24 24"><path d="M12 3.5a1.7 1.7 0 110 3.4M12 7l-8 6h16l-8-6zM4 17h16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-bag" viewBox="0 0 24 24"><path d="M6 8h12l1 12H5L6 8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 8V6a3 3 0 016 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+  <symbol id="ico-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18 6l-1.5 1.5M7.5 16.5L6 18M18 18l-1.5-1.5M7.5 7.5L6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-tag" viewBox="0 0 24 24"><path d="M11 4h6a2 2 0 012 2v6l-9 9-8-8 9-9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="15.5" cy="8.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="ico-heart" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-heart-filled" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-box" viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4-9-4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M3 8v8l9 4 9-4V8M12 12v8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-star" viewBox="0 0 24 24"><path d="M12 2l2.6 6.6L21 9.2l-5.2 4.4L17.5 21 12 17l-5.5 4 1.7-7.4L3 9.2l6.4-.6L12 2z" fill="currentColor"/></symbol>
+  <symbol id="ico-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.6 5.4L19 10l-5.4 1.6L12 17l-1.6-5.4L5 10l5.4-1.6L12 3z" fill="currentColor"/></symbol>
+  <symbol id="ico-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-cart" viewBox="0 0 24 24"><path d="M3 4h2l2.2 11h10.6L20 8H6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19.5" r="1.4" fill="currentColor"/><circle cx="17" cy="19.5" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="ico-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M5 20c1.2-4 4-6 7-6s5.8 2 7 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 019.5 4 8.5 8.5 0 1020 14.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-chev-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-chev-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-chev-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="ico-kitchen" viewBox="0 0 24 24"><path d="M5 4v9a5 5 0 0010 0V4M8 4v6M12 4v6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M19 4v16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M17 4h4v4a2 2 0 01-2 2 2 2 0 01-2-2V4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-plug" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M7 8h10v3a5 5 0 01-10 0V8z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 16v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+  <symbol id="ico-shirt" viewBox="0 0 24 24"><path d="M8 4L4 7l2 3 2-1v11h8V9l2 1 2-3-4-3-2 2h-4L8 4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-sofa" viewBox="0 0 24 24"><path d="M4 12v5h16v-5M4 12a2 2 0 012-2h12a2 2 0 012 2M6 10V8a2 2 0 012-2h8a2 2 0 012 2v2M5 15v3M19 15v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="ico-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 6l9 7 9-7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-phone" viewBox="0 0 24 24"><path d="M5 4h3l1.5 4-2 1.5a12 12 0 006.5 6.5l1.5-2 4 1.5v3a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6l8-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-chefhat" viewBox="0 0 24 24"><path d="M7 10a4 4 0 016-3.5A3.5 3.5 0 0119 10c0 .3 0 .6-.1.9A2.5 2.5 0 0118 15H6a2.5 2.5 0 01-.9-4.1c0-.3-.1-.6-.1-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 15v5h12v-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+  <symbol id="ico-fb" viewBox="0 0 24 24"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V11H8v3h2.5v6h3v-6H16l.5-3h-3V9.6c0-.4.3-.6.6-.6z" fill="currentColor"/></symbol>
+  <symbol id="ico-youtube" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 9.5l5 2.5-5 2.5v-5z" fill="currentColor"/></symbol>
+  <symbol id="ico-google" viewBox="0 0 24 24"><path d="M21 12.2c0-.7-.1-1.4-.2-2H12v3.9h5c-.2 1.2-.9 2.2-1.9 2.9v2.4h3.1c1.8-1.7 2.8-4.1 2.8-7.2z" fill="currentColor"/><path d="M12 21c2.6 0 4.7-.9 6.2-2.4l-3.1-2.4c-.9.6-2 .9-3.1.9-2.4 0-4.4-1.6-5.1-3.7H3.7v2.4C5.2 18.9 8.3 21 12 21z" fill="currentColor"/><path d="M6.9 13.4c-.2-.6-.3-1.2-.3-1.9s.1-1.3.3-1.9V7.2H3.7A9 9 0 003 11.5c0 1.5.3 2.9.9 4.1z" fill="currentColor"/><path d="M12 6.4c1.4 0 2.6.5 3.6 1.4l2.7-2.7C16.7 3.5 14.6 2.6 12 2.6 8.3 2.6 5.2 4.7 3.7 7.9l3.2 2.4c.7-2.1 2.7-3.9 5.1-3.9z" fill="currentColor"/></symbol>
+</defs>
+</svg>
+
+<!-- ---------------- HEADER ---------------- -->
+<header class="sticky top-0 z-50 bg-cream/90 backdrop-blur-md border-b border-black/5">
+  <div class="max-w-[1280px] mx-auto flex items-center justify-between gap-6 px-6 md:px-8 py-4">
+    <div class="flex items-center gap-2 font-poppins font-extrabold text-xl text-brandorange shrink-0">
+      <img src="src/assets/logo.png" alt="Cartora logo" class="w-8 h-auto"> CARTORA
+    </div>
+    <nav class="hidden lg:flex items-center gap-8 font-medium text-sm">
+      <a href="#" class="hover:text-brandorange transition">Products</a>
+      <a href="#" class="hover:text-brandorange transition">Browse</a>
+      <a href="#" class="hover:text-brandorange transition">About Us</a>
+    </nav>
+    <div class="hidden md:flex items-center gap-2 bg-white border border-black/10 rounded-full px-4 py-2.5 flex-1 max-w-[300px] relative">
+      <svg width="16" height="16" class="text-brandnavy/60 shrink-0"><use href="#ico-search"/></svg>
+      <input id="header-search" type="text" placeholder="Search products..." class="border-none outline-none text-sm bg-transparent w-full">
+      <div id="header-search-results" class="hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-soft border border-black/5 overflow-hidden max-h-80 overflow-y-auto z-50"></div>
+    </div>
+    <div class="flex items-center gap-4 shrink-0">
+      <button class="w-10 h-10 rounded-full bg-white border border-black/10 flex items-center justify-center hover:bg-brandpurpledeep hover:text-white transition" aria-label="Cart"><svg width="18" height="18"><use href="#ico-cart"/></svg></button>
+      <a class="hidden sm:flex items-center gap-1.5 font-semibold text-sm"><svg width="18" height="18"><use href="#ico-user"/></svg>Login</a>
+      <button class="w-10 h-10 rounded-full bg-white border border-black/10 flex items-center justify-center hover:bg-brandpurpledeep hover:text-white transition" aria-label="Toggle theme"><svg width="17" height="17"><use href="#ico-moon"/></svg></button>
+    </div>
+    <button id="burger" class="lg:hidden w-10 h-10 flex items-center justify-center"><svg width="22" height="22"><use href="#ico-menu"/></svg></button>
+  </div>
+  <nav id="mobile-nav" class="hidden lg:hidden flex-col gap-1 px-6 pb-4 font-medium text-sm bg-white border-b border-black/5">
+    <a href="#" class="py-2">Products</a><a href="#" class="py-2">Browse</a><a href="#" class="py-2">About Us</a>
+  </nav>
+</header>
+
+<!-- ---------------- HERO ---------------- -->
+<section class="relative overflow-hidden bg-[radial-gradient(120%_130%_at_78%_20%,_#FBE6D0_0%,_#F7DCC2_45%,_#FDF4E9_78%)] pt-16 pb-10">
+  <div class="max-w-[1280px] mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-[1.05fr_.95fr] gap-5 items-center">
+    <div>
+      <span class="inline-flex items-center gap-2 text-xs font-semibold tracking-widest text-brandpurple uppercase">
+        <svg width="14" height="14"><use href="#ico-sparkle"/></svg> Trending Collections
+      </span>
+      <h1 class="text-4xl md:text-[52px] leading-[1.08] tracking-tight my-4 font-bold">Elevate Your<br>Space <span class="text-brandorange">Beautifully</span></h1>
+      <p class="text-[15.5px] text-brandnavy/60 max-w-[430px] leading-relaxed mb-7">Discover stylish pieces for your home, electronics, fashion &amp; kitchen that blend comfort, function &amp; elegance.</p>
+      <a href="#popular" class="inline-flex items-center gap-2.5 bg-brandorange hover:bg-brandorangedark text-white font-semibold px-7 py-3.5 rounded-full text-sm shadow-[0_10px_24px_-8px_rgba(245,132,31,.55)] hover:-translate-y-0.5 transition">
+        Explore More <svg width="15" height="15"><use href="#ico-arrow"/></svg>
+      </a>
+      <div class="flex gap-5 mt-11">
+        <div class="w-14 h-14 rounded-full bg-brandorange text-brandnavy shadow-[0_8px_20px_-10px_rgba(245,132,31,.55)] flex items-center justify-center hover:bg-brandorangedark hover:text-white hover:-translate-y-1 transition" title="Audio"><svg width="22" height="22"><use href="#ico-headphones"/></svg></div>
+        <div class="w-14 h-14 rounded-full bg-brandorange text-brandnavy shadow-[0_8px_20px_-10px_rgba(245,132,31,.55)] flex items-center justify-center hover:bg-brandorangedark hover:text-white hover:-translate-y-1 transition" title="Lighting"><svg width="22" height="22"><use href="#ico-lamp"/></svg></div>
+        <div class="w-14 h-14 rounded-full bg-brandorange text-brandnavy shadow-[0_8px_20px_-10px_rgba(245,132,31,.55)] flex items-center justify-center hover:bg-brandorangedark hover:text-white hover:-translate-y-1 transition" title="Fashion"><svg width="22" height="22"><use href="#ico-hanger"/></svg></div>
+        <div class="w-14 h-14 rounded-full bg-brandorange text-brandnavy shadow-[0_8px_20px_-10px_rgba(245,132,31,.55)] flex items-center justify-center hover:bg-brandorangedark hover:text-white hover:-translate-y-1 transition" title="New Deals"><svg width="22" height="22"><use href="#ico-box"/></svg></div>
+      </div>
+    </div>
+    <div class="relative flex items-center justify-center h-[300px] lg:h-[440px]">
+      <div class="absolute w-[390px] h-[390px] rounded-full border-[1.5px] border-dashed border-brandpurple/35 animate-spin-slow"></div>
+      <div class="w-[280px] h-[280px] lg:w-[340px] lg:h-[340px] rounded-full overflow-hidden bg-white shadow-[0_30px_60px_-20px_rgba(90,46,158,.35)]">
+        <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=700&q=80" alt="Modern grey lounge chair" class="w-full h-full object-cover">
+      </div>
+      <div class="absolute top-[6%] left-[2%] w-13 h-13 rounded-2xl bg-white text-brandpurpledeep shadow-lg flex items-center justify-center animate-float" style="animation-delay:.2s"><svg width="22" height="22"><use href="#ico-gear"/></svg></div>
+      <div class="absolute top-[20%] right-0 w-13 h-13 rounded-2xl bg-white text-brandpurpledeep shadow-lg flex items-center justify-center animate-float" style="animation-delay:1s"><svg width="22" height="22"><use href="#ico-tag"/></svg></div>
+      <div class="absolute bottom-[16%] left-0 w-13 h-13 rounded-2xl bg-white text-brandpurpledeep shadow-lg flex items-center justify-center animate-float" style="animation-delay:1.6s"><svg width="22" height="22"><use href="#ico-heart"/></svg></div>
+      <div class="absolute bottom-[2%] right-[10%] w-13 h-13 rounded-2xl bg-white text-brandpurpledeep shadow-lg flex items-center justify-center animate-float" style="animation-delay:.7s"><svg width="22" height="22"><use href="#ico-box"/></svg></div>
+      <svg class="absolute top-[8%] left-[36%] text-brandorange/85 animate-twinkle" width="20" height="20" style="animation-delay:.2s"><use href="#ico-sparkle"/></svg>
+      <svg class="absolute top-[52%] right-[4%] text-brandorange/85 animate-twinkle" width="16" height="16" style="animation-delay:1s"><use href="#ico-sparkle"/></svg>
+      <svg class="absolute bottom-[10%] left-[30%] text-brandorange/85 animate-twinkle" width="14" height="14" style="animation-delay:1.8s"><use href="#ico-sparkle"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- POPULAR PRODUCTS ---------------- -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-8 pt-14 pb-2" id="popular">
+  <div class="flex items-baseline justify-between mb-6">
+    <h2 class="text-2xl font-bold text-brandpurpledeep tracking-tight">Popular Products</h2>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-5" id="popular-grid"></div>
+</section>
+
+<!-- ---------------- COLLECTIONS (matches reference image) ---------------- -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-8 py-9">
+  <div class="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-5 md:h-[600px]">
+
+    <!-- Fashion Collection: tall left card -->
+    <div class="md:col-start-1 md:row-span-2 relative overflow-hidden rounded-[28px] bg-linear-to-b from-[#F6E9DA] to-[#EFDCC6] p-7 flex flex-col min-h-[300px]">
+      <h3 class="text-3xl font-extrabold text-brandpurple leading-tight mb-3">Fashion<br>Collection</h3>
+      <p class="text-sm text-brandorangedark/90 max-w-[220px] mb-6">Discover the latest clothing, shoes, and accessories for every style.</p>
+      <div class="flex flex-col gap-3 mb-6">
+        <span class="flex items-center gap-2.5 text-sm font-semibold text-brandpurple"><span class="w-8 h-8 rounded-full bg-white/70 flex items-center justify-center"><svg width="15" height="15"><use href="#ico-hanger"/></svg></span>Trendy Style</span>
+        <span class="flex items-center gap-2.5 text-sm font-semibold text-brandpurple"><span class="w-8 h-8 rounded-full bg-white/70 flex items-center justify-center"><svg width="15" height="15"><use href="#ico-star"/></svg></span>Premium Quality</span>
+        <span class="flex items-center gap-2.5 text-sm font-semibold text-brandpurple"><span class="w-8 h-8 rounded-full bg-white/70 flex items-center justify-center"><svg width="15" height="15"><use href="#ico-tag"/></svg></span>Best Price</span>
+      </div>
+      <img src="https://loremflickr.com/500/650/fashion,model,coat?lock=901" alt="Fashion model" class="mt-auto w-[65%] ml-auto rounded-2xl object-cover h-[220px] shadow-lg">
+    </div>
+
+    <!-- Smart Electronics: top middle, spans 2 cols -->
+    <div class="md:col-start-2 md:col-span-2 md:row-start-1 relative overflow-hidden rounded-[28px] bg-linear-to-br from-brandteal to-[#8FCFCE] p-7 flex items-center min-h-[260px]">
+      <div class="max-w-[260px] relative z-10">
+        <svg width="26" height="26" class="text-white mb-3"><use href="#ico-cart"/></svg>
+        <h3 class="text-2xl font-extrabold text-[#7A1230] mb-2">Smart Electronics</h3>
+        <p class="text-sm text-brandpurpledeep/80 mb-4">Phones, tablets, computers, gaming gear, and more.</p>
+        <div class="flex gap-2.5">
+          <span class="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center text-brandpurpledeep"><svg width="16" height="16"><use href="#ico-phone"/></svg></span>
+          <span class="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center text-brandpurpledeep"><svg width="16" height="16"><use href="#ico-plug"/></svg></span>
+          <span class="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center text-brandpurpledeep"><svg width="16" height="16"><use href="#ico-headphones"/></svg></span>
+          <span class="w-9 h-9 rounded-full bg-white/80 flex items-center justify-center text-brandpurpledeep"><svg width="16" height="16"><use href="#ico-gear"/></svg></span>
+        </div>
+      </div>
+      <img src="https://loremflickr.com/420/320/gadgets,electronics,tech?lock=902" alt="Electronics gear" class="absolute right-4 bottom-0 h-[85%] object-contain rounded-2xl">
+    </div>
+
+    <!-- Home Furniture: bottom middle, spans 2 cols -->
+    <div class="md:col-start-2 md:col-span-2 md:row-start-2 relative overflow-hidden rounded-[28px] bg-linear-to-br from-[#CFE3FA] to-[#9FC2EE] p-7 flex items-center min-h-[260px]">
+      <img src="https://loremflickr.com/380/320/armchair,lamp,furniture?lock=903" alt="Furniture" class="w-[42%] h-[80%] object-cover rounded-2xl shadow-lg">
+      <div class="ml-6 max-w-[240px]">
+        <h3 class="text-2xl font-extrabold text-brandorange mb-2">Home Furniture</h3>
+        <p class="text-sm text-brandpurpledeep/80">Phones, tablets, computers, gaming gear, and more.</p>
+      </div>
+      <svg width="24" height="24" class="absolute top-6 right-6 text-white/70"><use href="#ico-sparkle"/></svg>
+    </div>
+
+    <!-- Kitchen Essentials: tall right card -->
+    <div class="md:col-start-4 md:row-span-2 relative overflow-hidden rounded-[28px] bg-linear-to-b from-brandolive to-[#B8A67C] p-7 flex flex-col min-h-[300px]">
+      <svg width="26" height="26" class="text-[#3B2E12] mb-3"><use href="#ico-chefhat"/></svg>
+      <h3 class="text-3xl font-extrabold text-[#26421F] leading-tight mb-3">Kitchen<br>Essentials</h3>
+      <p class="text-sm text-[#4A3B1E] max-w-[220px] mb-6">Cook smarter with quality appliances and cookware.</p>
+      <div class="flex flex-col gap-3 mb-6">
+        <span class="flex items-center gap-2.5 text-sm font-semibold text-[#3B2E12]"><span class="w-8 h-8 rounded-full bg-white/70 flex items-center justify-center"><svg width="15" height="15"><use href="#ico-kitchen"/></svg></span>Quality Materials</span>
+        <span class="flex items-center gap-2.5 text-sm font-semibold text-[#3B2E12]"><span class="w-8 h-8 rounded-full bg-white/70 flex items-center justify-center"><svg width="15" height="15"><use href="#ico-shield"/></svg></span>Built to Last</span>
+        <span class="flex items-center gap-2.5 text-sm font-semibold text-[#3B2E12]"><span class="w-8 h-8 rounded-full bg-white/70 flex items-center justify-center"><svg width="15" height="15"><use href="#ico-sparkle"/></svg></span>Easy to Clean</span>
+      </div>
+      <img src="https://loremflickr.com/420/320/cookware,kitchen,pots?lock=904" alt="Kitchen cookware" class="mt-auto rounded-2xl object-cover h-[220px] w-full shadow-lg">
+    </div>
+
+  </div>
+</section>
+
+<!-- ---------------- CATEGORIES + NEW ARRIVALS ---------------- -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-8 py-10">
+  <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-7 items-start">
+    <div>
+      <h2 class="text-xl font-bold text-brandpurpledeep mb-3.5">Categories</h2>
+      <div class="bg-white rounded-2xl p-2.5 border border-black/5" id="category-list">
+        <div class="cat-item flex items-center justify-between gap-2.5 px-3.5 py-3.5 rounded-2xl font-medium text-sm cursor-pointer transition hover:bg-brandpurpledeep hover:text-white group" data-category="Kitchen">
+          <span class="flex items-center gap-2.5"><svg width="18" height="18" class="text-brandpurpledeep group-hover:text-white"><use href="#ico-kitchen"/></svg>Kitchen</span>
+        </div>
+        <div class="border-t border-black/5 my-1"></div>
+        <div class="cat-item flex items-center justify-between gap-2.5 px-3.5 py-3.5 rounded-2xl font-medium text-sm cursor-pointer transition hover:bg-brandpurpledeep hover:text-white group" data-parent="Electronic">
+          <span class="flex items-center gap-2.5"><svg width="18" height="18" class="text-brandpurpledeep group-hover:text-white"><use href="#ico-plug"/></svg>Electronic</span>
+          <svg width="14" height="14" class="chev transition-transform"><use href="#ico-chev-down"/></svg>
+        </div>
+        <div class="sub-list flex flex-col" data-sublist-for="Electronic">
+          <div class="cat-item pl-11 pr-3.5 py-2.5 rounded-xl font-medium text-[13.5px] text-brandnavy/60 cursor-pointer hover:bg-brandpurpledeep hover:text-white transition" data-category="Laptop">Laptop</div>
+          <div class="cat-item pl-11 pr-3.5 py-2.5 rounded-xl font-medium text-[13.5px] text-brandnavy/60 cursor-pointer hover:bg-brandpurpledeep hover:text-white transition" data-category="Mobile">Mobile</div>
+          <div class="cat-item pl-11 pr-3.5 py-2.5 rounded-xl font-medium text-[13.5px] text-brandnavy/60 cursor-pointer hover:bg-brandpurpledeep hover:text-white transition" data-category="HeadPhone">HeadPhone</div>
+          <div class="cat-item pl-11 pr-3.5 py-2.5 rounded-xl font-medium text-[13.5px] text-brandnavy/60 cursor-pointer hover:bg-brandpurpledeep hover:text-white transition" data-category="Tablet">Tablet</div>
+          <div class="cat-item pl-11 pr-3.5 py-2.5 rounded-xl font-medium text-[13.5px] text-brandnavy/60 cursor-pointer hover:bg-brandpurpledeep hover:text-white transition" data-category="Controller">Controller</div>
+        </div>
+        <div class="border-t border-black/5 my-1"></div>
+        <div class="cat-item flex items-center justify-between gap-2.5 px-3.5 py-3.5 rounded-2xl font-medium text-sm cursor-pointer transition hover:bg-brandpurpledeep hover:text-white group" data-parent="Fashion">
+          <span class="flex items-center gap-2.5"><svg width="18" height="18" class="text-brandpurpledeep group-hover:text-white"><use href="#ico-shirt"/></svg>Fashion</span>
+          <svg width="14" height="14" class="chev transition-transform"><use href="#ico-chev-down"/></svg>
+        </div>
+        <div class="sub-list flex flex-col" data-sublist-for="Fashion">
+          <div class="cat-item pl-11 pr-3.5 py-2.5 rounded-xl font-medium text-[13.5px] text-brandnavy/60 cursor-pointer hover:bg-brandpurpledeep hover:text-white transition" data-category="MenFashion">Men's</div>
+          <div class="cat-item pl-11 pr-3.5 py-2.5 rounded-xl font-medium text-[13.5px] text-brandnavy/60 cursor-pointer hover:bg-brandpurpledeep hover:text-white transition" data-category="WomenFashion">Women's</div>
+        </div>
+        <div class="border-t border-black/5 my-1"></div>
+        <div class="cat-item flex items-center justify-between gap-2.5 px-3.5 py-3.5 rounded-2xl font-medium text-sm cursor-pointer transition hover:bg-brandpurpledeep hover:text-white group" data-category="Furniture">
+          <span class="flex items-center gap-2.5"><svg width="18" height="18" class="text-brandpurpledeep group-hover:text-white"><use href="#ico-sofa"/></svg>Furniture</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="flex items-center justify-between gap-4 mb-5 flex-wrap">
+        <h2 class="text-xl font-bold text-brandpurpledeep" id="arrivalsSectionTitle">New Arrivals</h2>
+        <div class="flex items-center gap-2 bg-white border border-black/10 rounded-full px-4 py-2.5 max-w-[260px] w-full">
+          <svg width="15" height="15" class="text-brandnavy/60 shrink-0"><use href="#ico-search"/></svg>
+          <input id="arrivals-search" type="text" placeholder="Search for item" class="border-none outline-none text-sm bg-transparent w-full">
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4.5 mb-4.5" id="arrivals-grid"></div>
+      <p id="arrivals-empty" class="hidden text-sm text-brandnavy/50 text-center py-10">No products found. Try a different search.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- BEST SELLER (grid 1) ---------------- -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-8 py-5 pb-14">
+  <div class="flex items-baseline justify-between mb-6"><h2 class="text-2xl font-bold text-brandpurpledeep">Best Seller</h2></div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-5" id="bestseller-grid-1"></div>
+  <div class="flex items-center justify-center gap-2.5 mt-8">
+    <button class="page-arrow w-9 h-9 rounded-full flex items-center justify-center text-brandpurpledeep" id="page-prev"><svg width="16" height="16"><use href="#ico-chev-left"/></svg></button>
+    <button class="page-btn w-9 h-9 rounded-full bg-brandorange text-white border border-brandorange font-semibold text-[13.5px]" data-page="1">1</button>
+    <button class="page-btn w-9 h-9 rounded-full bg-white border border-black/10 font-semibold text-[13.5px] hover:border-brandorange hover:text-brandorange transition" data-page="2">2</button>
+    <button class="page-btn w-9 h-9 rounded-full bg-white border border-black/10 font-semibold text-[13.5px] hover:border-brandorange hover:text-brandorange transition" data-page="3">3</button>
+    <button class="page-arrow w-9 h-9 rounded-full flex items-center justify-center text-brandpurpledeep" id="page-next"><svg width="16" height="16"><use href="#ico-chev-right"/></svg></button>
+  </div>
+</section>
+
+<!-- ---------------- PROMO BANNERS ---------------- -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-8">
+  <div class="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-5 pb-14">
+    <div class="relative overflow-hidden rounded-[28px] p-10 min-h-[230px] flex flex-col justify-center bg-linear-to-r from-[#C23B1E] to-brandorange">
+      <span class="text-xs font-bold tracking-widest uppercase text-yellow-200">New Arrival · Apple</span>
+      <h2 class="text-3xl md:text-[34px] font-bold text-white mt-2 mb-2">Top <b class="text-yellow-300">AirPods Pro</b></h2>
+      <p class="text-white/80 text-sm mb-5">Best sound and height quality</p>
+      <a href="#" class="inline-flex items-center gap-2.5 bg-white text-brandorangedark font-semibold px-6 py-2.5 rounded-full text-sm w-fit hover:bg-yellow-50 transition">Explore More <svg width="13" height="13"><use href="#ico-arrow"/></svg></a>
+      <img src="src/assets/airpods-pro.png" alt="AirPods Pro" class="absolute right-8 bottom-0 w-44 object-contain drop-shadow-2xl">
+    </div>
+    <div class="flex flex-col gap-5">
+      <div class="relative overflow-hidden rounded-[28px] p-6 text-white flex-1 min-h-[95px] flex flex-col justify-center bg-linear-to-r from-[#6E3ACD] to-[#472574]">
+        <span class="text-[11px] font-bold tracking-widest uppercase opacity-80">Top Offer · Apple</span>
+        <h4 class="text-lg font-bold mt-1">iPad Pro 11</h4>
+        <p class="text-xs opacity-75">Best sell product</p>
+        <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=300&q=80" alt="iPad Pro" class="absolute right-4 bottom-2 w-16 drop-shadow-xl">
+      </div>
+      <div class="relative overflow-hidden rounded-[28px] p-6 text-white flex-1 min-h-[95px] flex flex-col justify-center bg-linear-to-r from-brandorange to-[#C23B1E]">
+        <span class="text-[11px] font-bold tracking-widest uppercase opacity-80">Best Seller</span>
+        <h4 class="text-lg font-bold mt-1">DualSense PS5</h4>
+        <p class="text-xs opacity-75">Best choice of the year</p>
+        <img src="https://images.unsplash.com/photo-1622297845775-5ff3fef71d13?w=300&q=80" alt="PS5 controller" class="absolute right-4 bottom-2 w-16 drop-shadow-xl">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------------- BEST SELLER (grid 2, 5 items) ---------------- -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-8 py-5 pb-14">
+  <div class="flex items-baseline justify-between mb-6">
+    <h2 class="text-2xl font-bold text-brandpurpledeep">Best Seller</h2>
+    <a href="#" class="text-[13.5px] font-semibold text-brandorange inline-flex items-center gap-1">view all <svg width="12" height="12"><use href="#ico-chev-right"/></svg></a>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-5" id="bestseller-grid-2"></div>
+</section>
+<!-- ---------------- RECOMMEND FOR YOU ---------------- -->
+<section class="max-w-[1280px] mx-auto px-6 md:px-8 py-5 pb-14">
+  <div class="flex items-baseline justify-between mb-6">
+    <h2 class="text-2xl font-bold text-brandpurpledeep">Recommend For You</h2>
+    <a href="#" class="text-[13.5px] font-semibold text-brandorange inline-flex items-center gap-1">view all <svg width="12" height="12"><use href="#ico-chev-right"/></svg></a>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-5" id="recommend-grid"></div>
+</section>
+
+<!-- ---------------- FOOTER ---------------- -->
+<footer class="bg-brandnavy text-white/75 pt-14">
+  <div class="max-w-[1280px] mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-[1.6fr_1fr_1fr_1.2fr] gap-8 pb-11 border-b border-white/10">
+    <div>
+      <div class="flex items-center gap-2 font-poppins font-extrabold text-2xl text-brandorange mb-3.5">
+        <img src="src/assets/logo.png" alt="Cartora logo" class="w-8 h-auto"> CARTORA
+      </div>
+      <p class="text-[13.5px] leading-relaxed max-w-[280px] mb-4">Your one-stop destination for top quality, unbeatable deals, and fast delivery. Shop smart, anytime, anywhere.</p>
+      <div class="flex items-center gap-3">
+        <a href="#" aria-label="Facebook" class="w-10 h-10 rounded-full bg-brandorange hover:bg-brandorangedark flex items-center justify-center transition text-white"><svg width="18" height="18"><use href="#ico-fb"/></svg></a>
+        <a href="#" aria-label="YouTube" class="w-10 h-10 rounded-full bg-brandorange hover:bg-brandorangedark flex items-center justify-center transition text-white"><svg width="18" height="18"><use href="#ico-youtube"/></svg></a>
+        <a href="#" aria-label="Google" class="w-10 h-10 rounded-full bg-brandorange hover:bg-brandorangedark flex items-center justify-center transition text-white"><svg width="18" height="18"><use href="#ico-google"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h5 class="text-white text-sm font-semibold mb-4">Company</h5>
+      <ul class="space-y-2.5 text-[13.5px]">
+        <li><a href="#" class="hover:text-brandorange transition">Home</a></li>
+        <li><a href="#" class="hover:text-brandorange transition">Products</a></li>
+        <li><a href="#" class="hover:text-brandorange transition">About Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="text-white text-sm font-semibold mb-4">Explore</h5>
+      <ul class="space-y-2.5 text-[13.5px]">
+        <li><a href="#" class="hover:text-brandorange transition">Electronic</a></li>
+        <li><a href="#" class="hover:text-brandorange transition">Furniture</a></li>
+        <li><a href="#" class="hover:text-brandorange transition">Fashion</a></li>
+        <li><a href="#" class="hover:text-brandorange transition">Kitchen</a></li>
+      </ul>
+    </div>
+    <div class="flex flex-col items-start md:items-end">
+      <h5 class="text-white text-sm font-semibold mb-4 tracking-wide">ORGANIZE BY ISTAD</h5>
+      <div class="mb-4 md:text-right w-full">
+        <p class="text-[13.5px]"><span class="text-white font-semibold">Call:</span><br>(+885) 99 666 777</p>
+        <p class="text-[13.5px] mt-2"><span class="text-white font-semibold">Gmail:</span><br>istadshop168@gmail.com</p>
+      </div>
+      <img src="src/assets/istad-seal.png" alt="ISTAD seal" class="w-20 h-20 object-contain">
+    </div>
+  </div>
+  <div class="max-w-[1280px] mx-auto px-6 md:px-8 flex items-center justify-between flex-wrap gap-3 py-6 text-[12.5px]">
+    <span>© Copyright by CodeUI. All rights reserved.</span>
+    <div class="flex gap-5.5">
+      <a href="#" class="hover:text-brandorange transition">Privacy Policy</a>
+      <a href="#" class="hover:text-brandorange transition">Terms of Use</a>
+      <a href="#" class="hover:text-brandorange transition">Legal</a>
+      <a href="#" class="hover:text-brandorange transition">Site Map</a>
+    </div>
+  </div>
+</footer>
+
+<div class="toast fixed bottom-6 left-1/2 bg-brandpurpledeep text-white px-6 py-3.5 rounded-full text-[13.5px] font-semibold flex items-center gap-2.5 opacity-0 pointer-events-none transition-all duration-300 z-[100] shadow-2xl" id="toast">
+  <svg width="16" height="16"><use href="#ico-cart"/></svg> Added to cart
+</div>
+
+<script src="src/script.js"></script>
+</body>
+</html>
