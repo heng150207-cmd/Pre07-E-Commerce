@@ -1,1 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 @import "tailwindcss";
+
+
+@theme {
+
+    --color-brand-purple: #6D3FF0;
+    --color-brand-orange: #F5811F;
+    --color-brand-coral: #F0623D;
+
+
+    --font-serif: Georgia, Cambria, "Times New Roman", serif;
+
+}
