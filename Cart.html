@@ -1,54 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Cart</title>
-  <link rel="stylesheet" href="../src/output.css">
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-</head>
-<body class="bg-[#f5f1eb] font-sans text-gray-800 p-4 sm:p-6 md:p-10 min-h-screen flex justify-center items-center">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cartora - Your Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              pagebg: "#eef0f5",
+              brandpurple: "#6f5fc9",
+              brandpurplelight: "#efeafc",
+              brandgreen: "#2e9b4f",
+              brandred: "#e13c3c",
+              bordersoft: "#ececf2",
+              textmuted: "#8a8a97",
+            },
+            borderRadius: {
+              card: "18px",
+            },
+            boxShadow: {
+              card: "0 4px 20px rgba(30, 20, 60, 0.06)",
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-pagebg text-[#2b2b33] font-sans min-h-screen">
+    <div class="max-w-[1200px] mx-auto p-6">
+      <!-- Navbar -->
 
-  <!-- Main Container -->
-  <div class="w-full max-w-xl space-y-6">
+      <!-- BIG OUTER CONTAINER -->
+      <div class="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 items-start">
+        <!-- Cart + Order Summary -->
+        <div class="flex flex-col gap-6">
+          <!-- Cart -->
+          <div class="bg-white rounded-card shadow-card p-7">
+            <h2 class="text-brandpurple text-xl font-bold mb-5">Your Cart</h2>
+            <div
+              class="hidden sm:grid grid-cols-[2fr_1fr_1.4fr_1fr] text-xs text-textmuted pb-2"
+            >
+              <span></span>
+              <span class="text-center">Price</span>
+              <span class="text-center">Quantity</span>
+              <span class="text-center">Sub Total</span>
+            </div>
 
-    <!-- Your Cart Card -->
-    <section class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
-      <h1 class="text-2xl font-bold text-[#8b72f6] mb-6">Your Cart</h1>
+            <!-- Cart items get injected here from the API response -->
+            <div id="cart-items" data-loading-text="Loading cart items...">
+              <p
+                class="text-sm text-textmuted py-6 text-center"
+                id="cart-loading-msg"
+              >
+                Loading cart items...
+              </p>
+            </div>
+          </div>
 
-      <!-- Table Header (Hidden on small mobile screens for clean responsive layout) -->
-      <div class="hidden sm:grid grid-cols-12 text-[11px] font-semibold text-gray-400 pb-3 border-b border-gray-200 text-center uppercase tracking-wider">
-        <div class="col-span-5 text-left pl-2">Product</div>
-        <div class="col-span-2">Price</div>
-        <div class="col-span-3">Quantity</div>
-        <div class="col-span-2">Sub Total</div>
-      </div>
-
-      <!-- Dynamic Items Container -->
-      <div id="cart-items-container" class="divide-y divide-gray-200">
-        <!-- Rendered via JS -->
-      </div>
-    </section>
-
-    <!-- Order Summary Card -->
-    <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-      <h2 class="text-2xl font-bold text-[#8b72f6] mb-6">Order Summary</h2>
-      <div class="space-y-4">
-        <div class="flex justify-between items-center pb-4 border-b border-gray-200">
-          <span class="text-sm font-medium text-gray-700">Subtotal</span>
-          <span id="summary-subtotal" class="text-lg font-bold text-gray-900">0$</span>
+          <!-- Order Summary -->
+          <div class="bg-white rounded-card shadow-card p-7">
+            <h2 class="text-brandpurple text-xl font-bold mb-5">
+              Order Summary
+            </h2>
+            <div class="flex justify-between text-sm py-3">
+              <span>Subtotal</span>
+              <span id="subtotal-value">$0</span>
+            </div>
+            <hr class="border-t border-bordersoft" />
+            <div class="flex justify-between text-[15px] font-bold py-3">
+              <span>Total</span>
+              <span id="total-value">$0</span>
+            </div>
+          </div>
         </div>
-        <div class="flex justify-between items-center pt-1">
-          <span class="text-sm font-medium text-gray-700">Total</span>
-          <span id="summary-total" class="text-lg font-bold text-gray-900">0$</span>
+
+        <!-- Payment / QR -->
+        <div class="bg-white rounded-card shadow-card overflow-hidden h-fit">
+          <div
+            class="bg-brandred text-white text-center py-4 font-extrabold text-xl tracking-wide"
+          >
+            KHQR
+          </div>
+          <div class="px-7 pt-6 pb-8">
+            <div class="text-textmuted text-[15px] mb-1" id="merchant-name">
+              CARTORA
+            </div>
+            <div class="text-2xl font-bold mb-4" id="payment-amount">
+              <span id="amount-value">0.00</span>
+              <span class="text-sm font-semibold text-textmuted ml-1">USD</span>
+            </div>
+            <hr class="border-t-2 border-dashed border-bordersoft mb-6" />
+
+            <!-- Empty styled QR box - insert your real KHQR image/canvas/API response here -->
+            <img src="./img/qr-code.png" alt="QR" />
+          </div>
         </div>
       </div>
-    </section>
-
-  </div>
-
-  <!-- Separate JS File -->
-  <script src="../javascript/cart.js"></script>
-</body>
+    </div>
+    <script src="./inject-cart.js"></script>
+  </body>
 </html>
