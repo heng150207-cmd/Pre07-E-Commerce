@@ -73,3 +73,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.querySelectorAll("[data-reveal]").forEach((el) => observer.observe(el));
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const revealEls = document.querySelectorAll('[data-reveal]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.remove('opacity-0', 'translate-y-10');
+        entry.target.classList.add('opacity-100', 'translate-y-0');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealEls.forEach(el => observer.observe(el));
+});
