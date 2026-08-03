@@ -4,6 +4,22 @@
     "tailwindcss": "^4.3.3"
   },
   "scripts": {
-    "dev":"npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
-  }
+    "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "name": "pre07-e-commerce",
+  "version": "1.0.0",
+  "description": "",
+  "main": "inject-cart.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heng150207-cmd/Pre07-E-Commerce.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/heng150207-cmd/Pre07-E-Commerce/issues"
+  },
+  "homepage": "https://github.com/heng150207-cmd/Pre07-E-Commerce#readme"
 }
