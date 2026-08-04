@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wishlist</title>
+  <!-- Tailwind CSS link -->
+  <link rel="stylesheet" href="../src/output.css">
+  <!-- local style -->
+  <link rel="stylesheet" href="../font/them.css">
+</head>
+<body class="bg-[#FAF8F5] font-(--heading) min-h-screen py-10 px-4 sm:px-8">
+    
+  <div class="max-w-5xl mx-auto bg-surface sm:bg-transparent rounded-2xl p-4 sm:p-8">
+   
+    <!-- Header -->
+    <div class="border-b border-gray-300 pb-4 mb-6 flex items-center justify-between">
+      <div class="text-3xl text-[32px] sm:text-[32px] md:text-[48px] lg:text-[48px] font-bold font-heading text-(--primary)">Wishlist</div>
+      
+      <!-- Select All Controls -->
+      <label class="flex items-center gap-2 cursor-pointer text-sm font-medium text-text-light hover:text-text-main select-none">
+        <input type="checkbox" id="select-all" class="w-4 h-4 rounded border-gray-300 text-(--primary) focus:ring-(--primary) accent-(--primary) cursor-pointer">
+        <span>Select All</span>
+      </label>
+    </div>
+
+    <!-- Wishlist Items Container -->
+    <div id="wishlist-container" class="space-y-6">
+      <!-- Dynamic Items Rendered via JavaScript -->
+    </div>
+
+    <!-- Empty State (Hidden by Default) -->
+    <div id="empty-state" class="hidden text-center py-12">
+      <p class="text-text-light text-lg mb-4">Your wishlist is empty.</p>
+      <button onclick="alert('Redirecting to shop...')" class="bg-(--primary) hover:bg-orange-400 text-white font-medium px-6 py-2.5 rounded-lg shadow-md transition-colors">
+        Continue Shopping
+      </button>
+    </div>
+
+    <!-- Bottom Actions -->
+    <div id="action-bar" class="mt-8 pt-6 border-t border-gray-200 flex flex-col sm:flex-row justify-between gap-4 place-self-center sm:place-self-center md:place-self-end lg:place-self-end">
+      <div class="flex flex-col sm:flex-row w-full sm:w-auto items-center gap-4">
+        <button class="w-full sm:w-auto border border-(--primary) hover:bg-(--primary) hover:text-white font-(--heading) px-6 py-2.5 rounded-lg transition-colors">
+         <a href=""> Continue Shopping </a>
+        </button>
+        <button id="add-all-btn" class="font-(--primary)  w-full sm:w-auto bg-(--primary) hover:bg-orange-400 text-white px-8 py-2.5 rounded-lg shadow-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+         <a href=""> Add All To Cart </a>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- JavaScript -->
+  <script src="../js/wishlist.js"></script>
+</body>
+</html>
