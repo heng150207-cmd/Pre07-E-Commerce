@@ -1,12 +1,11 @@
 // ================================================================
 // main.js — all page behaviour in one file
-//   1) "New Arrivals" carousel (3 pages)
-//   2) "Best Seller" carousel (3 pages)
-//   3) Scroll-triggered reveal animation for [data-reveal] elements
+//   1) New Arrivals carousel
+//   2) Best Seller carousel
+//   3) Scroll reveal animation
 // ================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
-
   /* ---------- Generic carousel factory ---------- */
   function initCarousel({ pageIds, prevBtnId, nextBtnId }) {
     const pages = pageIds
@@ -16,12 +15,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const prevBtn = document.getElementById(prevBtnId);
     const nextBtn = document.getElementById(nextBtnId);
 
-    if (!pages.length || !prevBtn || !nextBtn) return;
+    if (!pages.length || !prevBtn || !nextBtn) {
+      return;
+    }
 
     let currentPage = 0;
 
     function showPage(index) {
-      pages.forEach((page) => page.classList.add("hidden"));
+      pages.forEach((page) => {
+        page.classList.add("hidden");
+      });
+
       pages[index].classList.remove("hidden");
     }
 
@@ -31,21 +35,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     prevBtn.addEventListener("click", () => {
-      currentPage = (currentPage - 1 + pages.length) % pages.length;
+      currentPage =
+        (currentPage - 1 + pages.length) % pages.length;
+
       showPage(currentPage);
     });
 
-    showPage(0);
+    showPage(currentPage);
   }
 
-  // New Arrivals carousel
+  /* ---------- New Arrivals carousel ---------- */
   initCarousel({
     pageIds: ["page1", "page2", "page3"],
     prevBtnId: "prevBtn",
     nextBtnId: "nextBtn",
   });
 
-  // Best Seller carousel
+  /* ---------- Best Seller carousel ---------- */
   initCarousel({
     pageIds: ["bspage1", "bspage2", "bspage3"],
     prevBtnId: "prevBtn2",
@@ -53,40 +59,37 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ---------- Scroll reveal animation ---------- */
-  const observer = new IntersectionObserver(
+  const revealElements =
+    document.querySelectorAll("[data-reveal]");
+
+  const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.remove(
-            "opacity-0",
-            "translate-y-10",
-            "translate-y-12",
-            "translate-y-6"
-          );
-          entry.target.classList.add("opacity-100", "translate-y-0");
-          observer.unobserve(entry.target);
+        if (!entry.isIntersecting) {
+          return;
         }
+
+        entry.target.classList.remove(
+          "opacity-0",
+          "translate-y-10",
+          "translate-y-12",
+          "translate-y-6"
+        );
+
+        entry.target.classList.add(
+          "opacity-100",
+          "translate-y-0"
+        );
+
+        revealObserver.unobserve(entry.target);
       });
     },
-    { threshold: 0.1 }
+    {
+      threshold: 0.1,
+    }
   );
 
-  document.querySelectorAll("[data-reveal]").forEach((el) => observer.observe(el));
-});
-
-
-document.addEventListener("DOMContentLoaded", function () {
-  const revealEls = document.querySelectorAll('[data-reveal]');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.remove('opacity-0', 'translate-y-10');
-        entry.target.classList.add('opacity-100', 'translate-y-0');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-
-  revealEls.forEach(el => observer.observe(el));
+  revealElements.forEach((element) => {
+    revealObserver.observe(element);
+  });
 });
