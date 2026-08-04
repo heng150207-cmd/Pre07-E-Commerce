@@ -2,12 +2,18 @@
 
 // ================================================================
 // auth-ui.js
-// Controls navbar authentication state and protected-page redirects.
+// Navbar login state, user menu, protected pages and redirects.
 // api.js must load before this file.
 // ================================================================
 
-const LOGIN_PAGE_URL = "login.html";
-const HOME_PAGE_URL = "../index.html";
+const DEFAULT_AUTH_PATHS = {
+  home: "../index.html",
+  login: "login.html",
+  products: "product-page.html",
+  productDetail: "product-detail.html",
+  cart: "cart.html",
+  wishlist: "wishlist.html",
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   updateNavbarAuthState();
@@ -15,14 +21,39 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ================================================================
+   PATHS
+================================================================ */
+
+function getAuthPaths() {
+  return {
+    ...DEFAULT_AUTH_PATHS,
+    ...(window.CARTORA_PATHS || {}),
+  };
+}
+
+function getContainerPath(container, key) {
+  const datasetKey = `${key}Url`;
+  const configuredValue = container?.dataset?.[datasetKey];
+
+  return configuredValue || getAuthPaths()[key];
+}
+
+/* ================================================================
    AUTH STATE
 ================================================================ */
 
 function isUserLoggedIn() {
-  const token = getAccessToken();
-  const user = getStoredUser();
+  const token =
+    typeof getAccessToken === "function"
+      ? getAccessToken()
+      : null;
 
-  return Boolean(token && getUserUuid(user));
+  const user =
+    typeof getStoredUser === "function"
+      ? getStoredUser()
+      : null;
+
+  return Boolean(token && getAuthUserUuid(user));
 }
 
 function getCurrentUser() {
@@ -33,16 +64,20 @@ function getCurrentUser() {
   return getStoredUser();
 }
 
-function getUserUuid(user) {
+function getAuthUserUuid(user) {
   return (
     user?.uuid ||
     user?.userUuid ||
     user?.data?.uuid ||
     user?.data?.userUuid ||
     user?.user?.uuid ||
+    user?.user?.userUuid ||
     user?.data?.user?.uuid ||
+    user?.data?.user?.userUuid ||
     user?.payload?.uuid ||
+    user?.payload?.userUuid ||
     user?.payload?.user?.uuid ||
+    user?.payload?.user?.userUuid ||
     null
   );
 }
@@ -82,30 +117,31 @@ function getUserDisplayName(user) {
 ================================================================ */
 
 function updateNavbarAuthState() {
-  const desktopAuthContainer =
+  const desktopContainer =
     document.getElementById("navbar-auth");
 
-  const mobileAuthContainer =
+  const mobileContainer =
     document.getElementById("mobile-navbar-auth");
 
   const user = getCurrentUser();
 
   if (!user) {
-    renderLoginLink(desktopAuthContainer, false);
-    renderLoginLink(mobileAuthContainer, true);
+    renderLoginLink(desktopContainer, false);
+    renderLoginLink(mobileContainer, true);
     return;
   }
 
-  const displayName = getUserDisplayName(user);
+  const displayName =
+    getUserDisplayName(user);
 
   renderUserMenu(
-    desktopAuthContainer,
+    desktopContainer,
     displayName,
     false
   );
 
   renderUserMenu(
-    mobileAuthContainer,
+    mobileContainer,
     displayName,
     true
   );
@@ -116,18 +152,23 @@ function renderLoginLink(container, isMobile) {
     return;
   }
 
+  const loginUrl =
+    getContainerPath(container, "login");
+
   container.innerHTML = `
     <a
-      href="${buildLoginUrl()}"
+      href="${escapeAttribute(loginUrl)}"
       class="${
         isMobile
           ? "flex items-center gap-2"
-          : "hidden md:flex items-center gap-2"
+          : "hidden items-center gap-2 md:flex"
       }
              text-gray-800 transition-colors
              hover:text-violet-600"
     >
-      ${getUserIcon("h-6 w-6")}
+      ${getUserIcon(
+        isMobile ? "h-5 w-5" : "h-7 w-7"
+      )}
 
       <span>Login</span>
     </a>
@@ -146,6 +187,12 @@ function renderUserMenu(
   const safeDisplayName =
     escapeHtml(displayName);
 
+  const cartUrl =
+    getContainerPath(container, "cart");
+
+  const wishlistUrl =
+    getContainerPath(container, "wishlist");
+
   if (isMobile) {
     container.innerHTML = `
       <div class="space-y-3">
@@ -153,10 +200,27 @@ function renderUserMenu(
           class="flex items-center gap-2
                  font-semibold text-gray-800"
         >
-          ${getUserIcon("h-6 w-6")}
-
+          ${getUserIcon("h-5 w-5")}
           <span>${safeDisplayName}</span>
         </div>
+
+        <a
+          href="${escapeAttribute(cartUrl)}"
+          class="block text-gray-700
+                 transition-colors
+                 hover:text-violet-600"
+        >
+          My Cart
+        </a>
+
+        <a
+          href="${escapeAttribute(wishlistUrl)}"
+          class="block text-gray-700
+                 transition-colors
+                 hover:text-violet-600"
+        >
+          My Wishlist
+        </a>
 
         <button
           type="button"
@@ -166,7 +230,6 @@ function renderUserMenu(
                  hover:text-red-600"
         >
           ${getLogoutIcon("h-5 w-5")}
-
           <span>Logout</span>
         </button>
       </div>
@@ -216,7 +279,7 @@ function renderUserMenu(
                  bg-white p-2 shadow-xl"
         >
           <a
-            href="cart.html"
+            href="${escapeAttribute(cartUrl)}"
             class="block rounded-lg px-4 py-2
                    text-sm text-gray-700
                    hover:bg-gray-100"
@@ -225,7 +288,7 @@ function renderUserMenu(
           </a>
 
           <a
-            href="wishlist.html"
+            href="${escapeAttribute(wishlistUrl)}"
             class="block rounded-lg px-4 py-2
                    text-sm text-gray-700
                    hover:bg-gray-100"
@@ -252,15 +315,19 @@ function renderUserMenu(
 }
 
 function bindAuthMenuEvents(container) {
-  const menuButton = container.querySelector(
-    '[data-action="toggle-user-menu"]'
-  );
+  const menuButton =
+    container.querySelector(
+      '[data-action="toggle-user-menu"]'
+    );
 
-  const userMenu = container.querySelector(
-    "[data-user-menu]"
-  );
+  const userMenu =
+    container.querySelector(
+      "[data-user-menu]"
+    );
 
-  menuButton?.addEventListener("click", () => {
+  menuButton?.addEventListener("click", (event) => {
+    event.stopPropagation();
+
     const isHidden =
       userMenu?.classList.toggle("hidden");
 
@@ -273,8 +340,30 @@ function bindAuthMenuEvents(container) {
   container
     .querySelectorAll('[data-action="logout"]')
     .forEach((button) => {
-      button.addEventListener("click", logoutUser);
+      button.addEventListener(
+        "click",
+        logoutUser
+      );
     });
+
+  if (menuButton && userMenu) {
+    document.addEventListener(
+      "click",
+      (event) => {
+        if (!container.contains(event.target)) {
+          userMenu.classList.add("hidden");
+
+          menuButton.setAttribute(
+            "aria-expanded",
+            "false"
+          );
+        }
+      },
+      {
+        once: false,
+      }
+    );
+  }
 }
 
 /* ================================================================
@@ -288,7 +377,8 @@ function requireLogin() {
 
   saveReturnUrl();
 
-  window.location.href = buildLoginUrl();
+  window.location.href =
+    buildLoginUrl();
 
   return false;
 }
@@ -306,31 +396,63 @@ function saveReturnUrl() {
 }
 
 function buildLoginUrl() {
+  const paths = getAuthPaths();
+
   const currentUrl =
     window.location.pathname +
     window.location.search +
     window.location.hash;
 
-  return `${LOGIN_PAGE_URL}?redirect=${encodeURIComponent(
+  return `${paths.login}?redirect=${encodeURIComponent(
     currentUrl
   )}`;
 }
 
 function getLoginRedirectUrl() {
   const query =
-    new URLSearchParams(window.location.search);
+    new URLSearchParams(
+      window.location.search
+    );
 
   const queryRedirect =
     query.get("redirect");
 
   const storedRedirect =
-    sessionStorage.getItem("cartoraReturnUrl");
+    sessionStorage.getItem(
+      "cartoraReturnUrl"
+    );
 
   return (
-    queryRedirect ||
-    storedRedirect ||
-    HOME_PAGE_URL
+    sanitizeRedirectUrl(queryRedirect) ||
+    sanitizeRedirectUrl(storedRedirect) ||
+    getAuthPaths().home
   );
+}
+
+function sanitizeRedirectUrl(url) {
+  if (!url) {
+    return null;
+  }
+
+  try {
+    const resolvedUrl =
+      new URL(url, window.location.origin);
+
+    if (
+      resolvedUrl.origin !==
+      window.location.origin
+    ) {
+      return null;
+    }
+
+    return (
+      resolvedUrl.pathname +
+      resolvedUrl.search +
+      resolvedUrl.hash
+    );
+  } catch {
+    return null;
+  }
 }
 
 function clearLoginRedirectUrl() {
@@ -344,17 +466,21 @@ function clearLoginRedirectUrl() {
 ================================================================ */
 
 function protectPrivatePage() {
-  const protectedPage =
+  const isProtected =
     document.body.dataset.authRequired === "true";
 
-  if (!protectedPage) {
+  if (
+    !isProtected ||
+    isUserLoggedIn()
+  ) {
     return;
   }
 
-  if (!isUserLoggedIn()) {
-    saveReturnUrl();
-    window.location.replace(buildLoginUrl());
-  }
+  saveReturnUrl();
+
+  window.location.replace(
+    buildLoginUrl()
+  );
 }
 
 /* ================================================================
@@ -362,17 +488,18 @@ function protectPrivatePage() {
 ================================================================ */
 
 function logoutUser() {
-  clearAuthStorage();
-
-  localStorage.removeItem(
-    "cartoraWishlist"
-  );
+  if (
+    typeof clearAuthStorage === "function"
+  ) {
+    clearAuthStorage();
+  }
 
   sessionStorage.removeItem(
     "cartoraReturnUrl"
   );
 
-  window.location.href = HOME_PAGE_URL;
+  window.location.href =
+    getAuthPaths().home;
 }
 
 /* ================================================================
@@ -415,7 +542,11 @@ function getLogoutIcon(className) {
       stroke-linejoin="round"
       aria-hidden="true"
     >
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+      <path
+        d="M9 21H5a2 2 0 0 1-2-2V5
+           a2 2 0 0 1 2-2h4"
+      ></path>
+
       <path d="m16 17 5-5-5-5"></path>
       <path d="M21 12H9"></path>
     </svg>
@@ -433,4 +564,8 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+}
+
+function escapeAttribute(value) {
+  return escapeHtml(value);
 }

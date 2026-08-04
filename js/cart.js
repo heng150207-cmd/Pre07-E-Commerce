@@ -405,40 +405,7 @@ function createCartItemMarkup(item) {
           </button>
         </div>
 
-        <button
-          type="button"
-          data-action="remove"
-          data-product-uuid="${productUuid}"
-          class="flex h-8 w-8 items-center
-                 justify-center rounded-full
-                 border border-red-400
-                 text-red-500 transition
-                 hover:bg-red-50"
-          aria-label="Clear cart"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-4 w-4"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path
-              d="M19 7l-.867 12.142A2 2 0
-                 0116.138 21H7.862A2 2 0
-                 015.867 19.142L5 7"
-            ></path>
-
-            <path
-              d="M10 11v6M14 11v6
-                 M9 7V4h6v3M4 7h16"
-            ></path>
-          </svg>
-        </button>
+        
       </div>
 
       <div

@@ -76,11 +76,9 @@ async function loadProducts() {
 
   try {
     const response = await apiRequest(
-      "/products/public",
-      {
-        method: "GET",
-      }
-    );
+  "/products/public?page=0&size=100",
+  { method: "GET" }
+);
 
     console.log(
       "Products API response:",

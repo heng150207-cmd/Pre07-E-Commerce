@@ -1,669 +1,1017 @@
 "use strict";
 
-// ================================================================
-// product-detail.js
-// Fetch a product by UUID, render its details, manage gallery,
-// quantity, wishlist, Add to Cart and Buy Now.
-//
-// api.js must be loaded before this file.
-// ================================================================
-
 const WISHLIST_STORAGE_KEY = "cartoraWishlist";
+const FALLBACK_IMAGE = "../images/logo-cartora.png";
 
 let currentProduct = null;
 let currentProductUuid = null;
 let selectedQuantity = 1;
 let messageTimer = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-  initProductDetailPage();
-});
-
-/* ================================================================
-   INITIALIZATION
-================================================================ */
+document.addEventListener("DOMContentLoaded", initProductDetailPage);
 
 async function initProductDetailPage() {
-  currentProductUuid = getProductUuidFromUrl();
+  initMobileMenu();
+  initQuantitySelector();
+  initActions();
+
+  currentProductUuid =
+    new URLSearchParams(location.search).get("uuid")?.trim() || null;
 
   if (!currentProductUuid) {
-    showActionMessage(
-      "Product UUID is missing from the URL.",
-      "error"
-    );
-
-    disableProductActions();
+    showMessage("Product UUID is missing from the URL.", "error");
+    disableActions();
+    renderRelated([]);
     return;
   }
 
-  initColorSelector();
-  initQuantitySelector();
-  initProductActions();
-  initMobileMenu();
-
-  await loadProductDetail(currentProductUuid);
+  await loadProduct(currentProductUuid);
 }
 
-function getProductUuidFromUrl() {
-  const params = new URLSearchParams(
-    window.location.search
-  );
-
-  return params.get("uuid")?.trim() || null;
-}
-
-/* ================================================================
-   FETCH PRODUCT
-================================================================ */
-
-async function loadProductDetail(productUuid) {
-  setProductLoading(true);
+async function loadProduct(uuid) {
+  setLoading(true);
 
   try {
+    const product = await fetchProduct(uuid);
+
+    if (!product?.uuid) {
+      throw new Error("Product not found.");
+    }
+
+    currentProduct = product;
+    currentProductUuid = product.uuid;
+
+    renderProduct(product);
+    restoreWishlist();
+    await loadRelated(product);
+  } catch (error) {
+    console.error("Product detail error:", error);
+
+    showMessage(
+      error.message || "Unable to load product.",
+      "error"
+    );
+
+    disableActions();
+    renderRelated([]);
+  } finally {
+    setLoading(false);
+  }
+}
+
+async function fetchProduct(uuid) {
+  try {
     const response = await apiRequest(
-      `/products/${encodeURIComponent(productUuid)}`,
+      `/products/${encodeURIComponent(uuid)}`,
       {
         method: "GET",
       }
     );
 
-    console.log(
-      "Product detail API response:",
-      response
-    );
+    const product =
+      response?.data?.data ||
+      response?.data ||
+      response?.product ||
+      response;
 
-    const product = response?.data || response;
-
-    if (
-      !product ||
-      typeof product !== "object" ||
-      !product.uuid
-    ) {
-      throw new Error(
-        "The product data returned by the server is invalid."
+    if (product?.uuid) {
+      console.log(
+        "Product detail API response:",
+        response
       );
+
+      return product;
     }
-
-    currentProduct = product;
-
-    renderProductDetail(product);
-    restoreWishlistState();
   } catch (error) {
-    console.error(
-      "Unable to load product detail:",
+    console.warn(
+      "Single product endpoint failed; using public list.",
       error
     );
-
-    showActionMessage(
-      error.message ||
-        "Unable to load this product.",
-      "error"
-    );
-
-    disableProductActions();
-  } finally {
-    setProductLoading(false);
   }
+
+  const response = await apiRequest(
+    "/products/public",
+    {
+      method: "GET",
+    }
+  );
+
+  const products = extractProducts(response);
+
+  return (
+    products.find(
+      (product) =>
+        String(product?.uuid) ===
+        String(uuid)
+    ) || null
+  );
 }
 
-/* ================================================================
-   RENDER PRODUCT
-================================================================ */
-
-function renderProductDetail(product) {
-  const titleElement =
-    document.getElementById("product-title");
-
-  const mainImage =
-    document.getElementById("main-product-image");
-
-  const thumbnailsContainer =
-    document.getElementById("product-thumbnails");
-
-  const infoContainer =
-    titleElement?.parentElement || null;
-
-  const categoryLabel =
-    titleElement?.previousElementSibling || null;
-
-  const priceElement =
-    titleElement?.nextElementSibling || null;
-
-  const ratingContainer =
-    priceElement?.nextElementSibling || null;
-
-  const descriptionElement =
-    ratingContainer?.nextElementSibling || null;
-
-  const detailsList =
-    infoContainer?.querySelector("dl");
-
-  const detailValues =
-    detailsList?.querySelectorAll("dd") || [];
-
+function renderProduct(product) {
   const name =
-    product?.name || "Unnamed product";
+    product?.name ||
+    "Unnamed product";
 
-  const price = normalizePrice(
-    product?.price
-  );
+  const price =
+    toPrice(product?.price);
 
-  const stock = normalizeStock(
-    product?.stock
-  );
+  const stock =
+    toStock(product?.stock);
 
   const description =
     product?.description ||
-    "No description is available for this product.";
+    "No description is available.";
 
-  const images = getProductImages(product);
+  const category =
+    getCategoryName(product);
 
-  document.title = `${name} - CARTORA`;
+  const images =
+    getImages(product);
 
-  if (titleElement) {
-    titleElement.textContent = name;
-  }
+  document.title =
+    `${name} - CARTORA`;
 
-  if (priceElement) {
-    priceElement.textContent =
-      formatCurrency(price);
-  }
+  setText("product-title", name);
+  setText(
+    "product-price",
+    formatMoney(price)
+  );
+  setText(
+    "product-description",
+    description
+  );
+  setText(
+    "product-category-label",
+    category
+  );
+  setText(
+    "product-category-value",
+    category
+  );
+  setText(
+    "product-availability",
+    stock > 0
+      ? `In stock (${stock} available)`
+      : "Out of stock"
+  );
 
-  if (descriptionElement) {
-    descriptionElement.textContent =
-      description;
-  }
+  const availability =
+    document.getElementById(
+      "product-availability"
+    );
 
-  if (categoryLabel) {
-    categoryLabel.textContent =
-      product?.category?.name ||
-      product?.categoryName ||
-      "Product";
-  }
+  availability?.classList.toggle(
+    "text-green-600",
+    stock > 0
+  );
 
-  if (mainImage) {
-    mainImage.src =
-      images[0] ||
-      "../images/logo-cartora.png";
+  availability?.classList.toggle(
+    "text-red-600",
+    stock <= 0
+  );
 
-    mainImage.alt = name;
+  renderMainImage(
+    images[0],
+    name
+  );
 
-    mainImage.onerror = () => {
-      mainImage.onerror = null;
-      mainImage.src =
-        "../images/logo-cartora.png";
-    };
-  }
-
-  renderProductThumbnails(
-    thumbnailsContainer,
+  renderThumbnails(
     images,
     name
   );
 
-  updateAvailability(stock);
-
-  if (detailValues.length >= 1) {
-    detailValues[0].textContent =
-      stock > 0
-        ? `In stock (${stock} available)`
-        : "Out of stock";
-
-    detailValues[0].classList.toggle(
-      "text-green-600",
-      stock > 0
-    );
-
-    detailValues[0].classList.toggle(
-      "text-red-600",
-      stock <= 0
-    );
-  }
-
-  if (detailValues.length >= 2) {
-    detailValues[1].textContent =
-      product?.category?.name ||
-      product?.categoryName ||
-      "Product";
-  }
-
-  configureQuantityForStock(stock);
-  configureActionButtons(stock);
+  configureStock(stock);
 }
 
-function getProductImages(product) {
-  const images = [];
+function setText(id, value) {
+  const element =
+    document.getElementById(id);
 
-  if (product?.thumbnail) {
-    images.push(product.thumbnail);
+  if (element) {
+    element.textContent = value;
+  }
+}
+
+function getCategoryName(product) {
+  if (
+    typeof product?.category ===
+      "string" &&
+    product.category.trim()
+  ) {
+    return product.category.trim();
   }
 
-  if (Array.isArray(product?.images)) {
-    product.images.forEach((image) => {
-      if (
-        typeof image === "string" &&
-        image.trim()
-      ) {
-        images.push(image.trim());
-      }
-    });
-  }
+  return (
+    product?.category?.name ||
+    product?.categoryName ||
+    "Product"
+  );
+}
 
-  const uniqueImages = [
-    ...new Set(images),
+function getCategoryUuid(product) {
+  return (
+    product?.category?.uuid ||
+    product?.categoryUuid ||
+    null
+  );
+}
+
+function getImages(product) {
+  const candidates = [
+    product?.thumbnail,
+    product?.image,
+    product?.imageUrl,
   ];
 
-  return uniqueImages.length > 0
-    ? uniqueImages
-    : ["../images/logo-cartora.png"];
+  if (
+    Array.isArray(
+      product?.images
+    )
+  ) {
+    candidates.push(
+      ...product.images
+    );
+  }
+
+  if (
+    Array.isArray(
+      product?.imageUrls
+    )
+  ) {
+    candidates.push(
+      ...product.imageUrls
+    );
+  }
+
+  if (
+    Array.isArray(
+      product?.medias
+    )
+  ) {
+    product.medias.forEach(
+      (media) => {
+        if (
+          typeof media === "string"
+        ) {
+          candidates.push(media);
+        } else if (media?.url) {
+          candidates.push(
+            media.url
+          );
+        }
+      }
+    );
+  }
+
+  const unique = [
+    ...new Set(
+      candidates
+        .filter(
+          (value) =>
+            typeof value ===
+              "string" &&
+            value.trim()
+        )
+        .map(
+          (value) =>
+            value.trim()
+        )
+    ),
+  ];
+
+  return unique.length
+    ? unique
+    : [FALLBACK_IMAGE];
 }
 
-function renderProductThumbnails(
-  container,
-  images,
-  productName
+function renderMainImage(
+  src,
+  name
 ) {
+  const image =
+    document.getElementById(
+      "main-product-image"
+    );
+
+  if (!image) {
+    return;
+  }
+
+  image.src =
+    src ||
+    FALLBACK_IMAGE;
+
+  image.alt =
+    name;
+
+  image.classList.remove(
+    "opacity-50"
+  );
+
+  image.onerror = () => {
+    image.onerror = null;
+    image.src =
+      FALLBACK_IMAGE;
+  };
+}
+
+function renderThumbnails(
+  images,
+  name
+) {
+  const container =
+    document.getElementById(
+      "product-thumbnails"
+    );
+
   if (!container) {
     return;
   }
 
-  container.innerHTML = images
-    .map((image, index) => {
-      const safeImage = escapeHtml(image);
-      const safeName = escapeHtml(productName);
-      const isFirst = index === 0;
+  container.innerHTML =
+    images
+      .map(
+        (src, index) => `
+    <button
+      type="button"
+      class="product-thumbnail rounded-xl border-2
+             ${
+               index === 0
+                 ? "border-orange-500"
+                 : "border-transparent"
+             }
+             bg-white p-2 shadow-sm transition
+             hover:border-orange-500"
+      data-image="${escapeHtml(src)}"
+      data-alt="${escapeHtml(name)} image ${index + 1}"
+      aria-pressed="${index === 0}"
+    >
+      <img
+        src="${escapeHtml(src)}"
+        alt=""
+        class="h-20 w-full object-contain sm:h-24"
+        loading="lazy"
+        onerror="
+          this.onerror = null;
+          this.src = '${FALLBACK_IMAGE}';
+        "
+      >
+    </button>
+  `
+      )
+      .join("");
 
-      return `
-        <button
-          type="button"
-          class="product-thumbnail rounded-xl border-2
-                 ${
-                   isFirst
-                     ? "border-(--primary)"
-                     : "border-transparent"
-                 }
-                 bg-white p-2 shadow-sm transition
-                 hover:border-(--primary)"
-          data-image="${safeImage}"
-          data-alt="${safeName} image ${index + 1}"
-          aria-label="Show product image ${index + 1}"
-          aria-pressed="${isFirst}"
-        >
-          <img
-            src="${safeImage}"
-            alt=""
-            class="h-20 w-full object-contain sm:h-24"
-            loading="lazy"
-            onerror="
-              this.onerror = null;
-              this.src = '../images/logo-cartora.png';
-            "
-          >
-        </button>
-      `;
-    })
-    .join("");
-
-  initProductGallery();
-}
-
-function updateAvailability(stock) {
-  const quantityInput =
-    document.getElementById("product-quantity");
-
-  if (quantityInput) {
-    quantityInput.max = String(
-      Math.max(stock, 1)
-    );
-  }
-}
-
-/* ================================================================
-   PRODUCT GALLERY
-================================================================ */
-
-function initProductGallery() {
-  const mainImage =
-    document.getElementById("main-product-image");
-
-  const thumbnailsContainer =
-    document.getElementById("product-thumbnails");
-
-  if (!mainImage || !thumbnailsContainer) {
-    return;
-  }
-
-  thumbnailsContainer.onclick = (event) => {
-    const thumbnailButton =
+  container.onclick = (
+    event
+  ) => {
+    const button =
       event.target.closest(
-        "button.product-thumbnail"
+        ".product-thumbnail"
       );
 
-    if (!thumbnailButton) {
+    if (!button) {
       return;
     }
 
-    const imageSource =
-      thumbnailButton.dataset.image;
-
-    const imageAlt =
-      thumbnailButton.dataset.alt ||
-      "Selected product image";
-
-    if (!imageSource) {
-      return;
-    }
-
-    thumbnailsContainer
-      .querySelectorAll(".product-thumbnail")
-      .forEach((button) => {
-        button.classList.remove(
-          "border-(--primary)"
+    container
+      .querySelectorAll(
+        ".product-thumbnail"
+      )
+      .forEach((item) => {
+        item.classList.remove(
+          "border-orange-500"
         );
 
-        button.classList.add(
+        item.classList.add(
           "border-transparent"
         );
 
-        button.setAttribute(
+        item.setAttribute(
           "aria-pressed",
           "false"
         );
       });
 
-    thumbnailButton.classList.remove(
+    button.classList.remove(
       "border-transparent"
     );
 
-    thumbnailButton.classList.add(
-      "border-(--primary)"
+    button.classList.add(
+      "border-orange-500"
     );
 
-    thumbnailButton.setAttribute(
+    button.setAttribute(
       "aria-pressed",
       "true"
     );
 
-    mainImage.classList.add(
-      "opacity-0",
-      "scale-95"
+    renderMainImage(
+      button.dataset.image,
+      button.dataset.alt ||
+        name
     );
-
-    window.setTimeout(() => {
-      mainImage.src = imageSource;
-      mainImage.alt = imageAlt;
-
-      mainImage.classList.remove(
-        "opacity-0",
-        "scale-95"
-      );
-    }, 150);
   };
 }
 
-/* ================================================================
-   COLOR SELECTOR
-================================================================ */
+async function loadRelated(
+  selectedProduct
+) {
+  showRelatedLoading();
 
-function initColorSelector() {
-  const colorButtons =
-    document.querySelectorAll(".product-color");
+  try {
+    const response =
+      await apiRequest(
+        "/products/public",
+        {
+          method: "GET",
+        }
+      );
 
-  const selectedColorName =
-    document.getElementById(
-      "selected-color-name"
+    const all =
+      extractProducts(
+        response
+      );
+
+    const categoryUuid =
+      getCategoryUuid(
+        selectedProduct
+      );
+
+    let related =
+      all.filter(
+        (product) => {
+          if (
+            !product?.uuid ||
+            product.uuid ===
+              selectedProduct.uuid
+          ) {
+            return false;
+          }
+
+          return categoryUuid
+            ? getCategoryUuid(
+                product
+              ) ===
+                categoryUuid
+            : true;
+        }
+      );
+
+    if (
+      related.length < 4
+    ) {
+      const used =
+        new Set(
+          related.map(
+            (product) =>
+              product.uuid
+          )
+        );
+
+      all.forEach(
+        (product) => {
+          if (
+            related.length >=
+              4 ||
+            !product?.uuid ||
+            product.uuid ===
+              selectedProduct.uuid ||
+            used.has(
+              product.uuid
+            )
+          ) {
+            return;
+          }
+
+          related.push(
+            product
+          );
+
+          used.add(
+            product.uuid
+          );
+        }
+      );
+    }
+
+    renderRelated(
+      related.slice(
+        0,
+        4
+      )
+    );
+  } catch (error) {
+    console.error(
+      "Related products error:",
+      error
     );
 
+    renderRelated([]);
+  }
+}
+
+function extractProducts(
+  response
+) {
   if (
-    colorButtons.length === 0 ||
-    !selectedColorName
+    Array.isArray(
+      response
+    )
   ) {
+    return response;
+  }
+
+  if (
+    Array.isArray(
+      response?.data?.content
+    )
+  ) {
+    return response.data.content;
+  }
+
+  if (
+    Array.isArray(
+      response?.data
+    )
+  ) {
+    return response.data;
+  }
+
+  if (
+    Array.isArray(
+      response?.content
+    )
+  ) {
+    return response.content;
+  }
+
+  if (
+    Array.isArray(
+      response?.products
+    )
+  ) {
+    return response.products;
+  }
+
+  if (
+    Array.isArray(
+      response?.data?.products
+    )
+  ) {
+    return response.data.products;
+  }
+
+  return [];
+}
+
+function showRelatedLoading() {
+  const container =
+    document.getElementById(
+      "related-products-container"
+    );
+
+  if (!container) {
     return;
   }
 
-  colorButtons.forEach((colorButton) => {
-    colorButton.addEventListener(
-      "click",
-      () => {
-        const colorName =
-          colorButton.dataset.color ||
-          "Selected color";
+  container.innerHTML = `
+    <div class="col-span-full py-10 text-center">
+      <div
+        class="mx-auto h-9 w-9 animate-spin rounded-full
+               border-4 border-gray-200 border-t-orange-500"
+      ></div>
 
-        colorButtons.forEach((button) => {
-          button.classList.remove(
-            "ring-slate-800"
-          );
-
-          button.classList.add(
-            "ring-transparent"
-          );
-
-          button.setAttribute(
-            "aria-pressed",
-            "false"
-          );
-        });
-
-        colorButton.classList.remove(
-          "ring-transparent"
-        );
-
-        colorButton.classList.add(
-          "ring-slate-800"
-        );
-
-        colorButton.setAttribute(
-          "aria-pressed",
-          "true"
-        );
-
-        selectedColorName.textContent =
-          colorName;
-      }
-    );
-  });
+      <p class="mt-3 text-sm text-gray-500">
+        Loading related products...
+      </p>
+    </div>
+  `;
 }
 
-/* ================================================================
-   QUANTITY
-================================================================ */
+function renderRelated(
+  products
+) {
+  const container =
+    document.getElementById(
+      "related-products-container"
+    );
+
+  if (!container) {
+    return;
+  }
+
+  if (!products.length) {
+    container.innerHTML = `
+      <p class="col-span-full py-10 text-center text-gray-500">
+        No related products are available.
+      </p>
+    `;
+
+    return;
+  }
+
+  container.innerHTML =
+    products
+      .map(
+        createRelatedCard
+      )
+      .join("");
+}
+
+function createRelatedCard(
+  product
+) {
+  const uuid =
+    encodeURIComponent(
+      String(
+        product?.uuid ||
+          ""
+      )
+    );
+
+  const name =
+    escapeHtml(
+      product?.name ||
+        "Unnamed product"
+    );
+
+  const price =
+    formatMoney(
+      toPrice(
+        product?.price
+      )
+    );
+
+  const stock =
+    toStock(
+      product?.stock
+    );
+
+  const image =
+    escapeHtml(
+      getImages(
+        product
+      )[0]
+    );
+
+  const unavailable =
+    stock <= 0;
+
+  return `
+    <article
+      class="group flex flex-col overflow-hidden rounded-2xl
+             border border-gray-100 bg-white p-3 shadow-sm
+             transition hover:-translate-y-1 hover:shadow-lg"
+    >
+      <a
+        href="product-detail.html?uuid=${uuid}"
+        class="flex h-52 items-center justify-center
+               overflow-hidden rounded-xl bg-gray-100 p-4"
+      >
+        <img
+          src="${image}"
+          alt="${name}"
+          class="max-h-full max-w-full object-contain transition
+                 duration-300 group-hover:scale-105"
+          loading="lazy"
+          onerror="
+            this.onerror = null;
+            this.src = '${FALLBACK_IMAGE}';
+          "
+        >
+      </a>
+
+      <div
+        class="flex flex-1 flex-col px-1 pb-1 pt-4"
+      >
+        <a
+          href="product-detail.html?uuid=${uuid}"
+        >
+          <h3
+            class="line-clamp-2 font-semibold text-gray-900"
+          >
+            ${name}
+          </h3>
+        </a>
+
+        <div
+          class="mt-2 flex items-center justify-between gap-3"
+        >
+          <span
+            class="font-bold text-gray-800"
+          >
+            ${price}
+          </span>
+
+          <span
+            class="text-xs font-medium
+                   ${
+                     unavailable
+                       ? "text-red-500"
+                       : "text-green-600"
+                   }"
+          >
+            ${
+              unavailable
+                ? "Out of stock"
+                : `${stock} available`
+            }
+          </span>
+        </div>
+
+        <button
+          type="button"
+          data-related-add="${uuid}"
+          ${
+            unavailable
+              ? "disabled"
+              : ""
+          }
+          class="mt-4 rounded-lg bg-orange-500 px-4 py-2.5
+                 text-sm font-semibold text-white transition
+                 hover:bg-orange-600 disabled:cursor-not-allowed
+                 disabled:bg-gray-400"
+        >
+          ${
+            unavailable
+              ? "Out of Stock"
+              : "Add to Cart"
+          }
+        </button>
+      </div>
+    </article>
+  `;
+}
 
 function initQuantitySelector() {
-  const quantityInput =
-    document.getElementById("product-quantity");
+  document
+    .getElementById(
+      "decrease-quantity"
+    )
+    ?.addEventListener(
+      "click",
+      () => {
+        setQuantity(
+          getQuantity() - 1
+        );
+      }
+    );
 
-  const decreaseButton =
+  document
+    .getElementById(
+      "increase-quantity"
+    )
+    ?.addEventListener(
+      "click",
+      () => {
+        setQuantity(
+          getQuantity() + 1
+        );
+      }
+    );
+
+  document
+    .getElementById(
+      "product-quantity"
+    )
+    ?.addEventListener(
+      "input",
+      () => {
+        setQuantity(
+          getQuantity()
+        );
+      }
+    );
+}
+
+function getQuantity() {
+  const value =
+    Number.parseInt(
+      document
+        .getElementById(
+          "product-quantity"
+        )
+        ?.value ||
+        "1",
+      10
+    );
+
+  return Number.isInteger(
+    value
+  )
+    ? value
+    : 1;
+}
+
+function setQuantity(
+  quantity
+) {
+  const input =
+    document.getElementById(
+      "product-quantity"
+    );
+
+  const decrease =
     document.getElementById(
       "decrease-quantity"
     );
 
-  const increaseButton =
+  const increase =
     document.getElementById(
       "increase-quantity"
     );
 
-  if (
-    !quantityInput ||
-    !decreaseButton ||
-    !increaseButton
-  ) {
-    return;
-  }
-
-  decreaseButton.addEventListener(
-    "click",
-    () => {
-      setSelectedQuantity(
-        getSelectedQuantity() - 1
-      );
-    }
-  );
-
-  increaseButton.addEventListener(
-    "click",
-    () => {
-      setSelectedQuantity(
-        getSelectedQuantity() + 1
-      );
-    }
-  );
-
-  quantityInput.addEventListener(
-    "input",
-    () => {
-      setSelectedQuantity(
-        getSelectedQuantity()
-      );
-    }
-  );
-
-  quantityInput.addEventListener(
-    "blur",
-    () => {
-      setSelectedQuantity(
-        getSelectedQuantity()
-      );
-    }
-  );
-
-  setSelectedQuantity(1);
-}
-
-function getSelectedQuantity() {
-  const quantityInput =
-    document.getElementById("product-quantity");
-
-  const parsedQuantity = Number.parseInt(
-    quantityInput?.value || "1",
-    10
-  );
-
-  if (!Number.isInteger(parsedQuantity)) {
-    return 1;
-  }
-
-  return parsedQuantity;
-}
-
-function setSelectedQuantity(quantity) {
-  const quantityInput =
-    document.getElementById("product-quantity");
-
-  const decreaseButton =
-    document.getElementById(
-      "decrease-quantity"
+  const stock =
+    toStock(
+      currentProduct?.stock
     );
 
-  const increaseButton =
-    document.getElementById(
-      "increase-quantity"
+  const max =
+    stock > 0
+      ? stock
+      : 1;
+
+  selectedQuantity =
+    Math.min(
+      Math.max(
+        Number.parseInt(
+          quantity,
+          10
+        ) || 1,
+        1
+      ),
+      max
     );
 
-  const stock = normalizeStock(
-    currentProduct?.stock
-  );
+  if (input) {
+    input.value =
+      String(
+        selectedQuantity
+      );
 
-  const maximum =
-    stock > 0 ? stock : 1;
-
-  selectedQuantity = Math.min(
-    Math.max(
-      Number.parseInt(quantity, 10) || 1,
-      1
-    ),
-    maximum
-  );
-
-  if (quantityInput) {
-    quantityInput.value =
-      String(selectedQuantity);
-
-    quantityInput.max =
-      String(maximum);
+    input.max =
+      String(max);
   }
 
-  if (decreaseButton) {
-    const disabled =
+  if (decrease) {
+    decrease.disabled =
       selectedQuantity <= 1;
-
-    decreaseButton.disabled = disabled;
-
-    decreaseButton.classList.toggle(
-      "cursor-not-allowed",
-      disabled
-    );
-
-    decreaseButton.classList.toggle(
-      "opacity-40",
-      disabled
-    );
   }
 
-  if (increaseButton) {
-    const disabled =
+  if (increase) {
+    increase.disabled =
       stock <= 0 ||
-      selectedQuantity >= maximum;
-
-    increaseButton.disabled = disabled;
-
-    increaseButton.classList.toggle(
-      "cursor-not-allowed",
-      disabled
-    );
-
-    increaseButton.classList.toggle(
-      "opacity-40",
-      disabled
-    );
+      selectedQuantity >=
+        max;
   }
 }
 
-function configureQuantityForStock(stock) {
-  const quantityInput =
-    document.getElementById("product-quantity");
+function configureStock(
+  stock
+) {
+  const input =
+    document.getElementById(
+      "product-quantity"
+    );
 
-  if (quantityInput) {
-    quantityInput.disabled = stock <= 0;
+  if (input) {
+    input.disabled =
+      stock <= 0;
   }
 
-  setSelectedQuantity(1);
+  setQuantity(1);
+
+  const add =
+    document.getElementById(
+      "add-to-cart-button"
+    );
+
+  const buy =
+    document.getElementById(
+      "buy-now-button"
+    );
+
+  const unavailable =
+    stock <= 0;
+
+  if (add) {
+    add.disabled =
+      unavailable;
+
+    add.classList.toggle(
+      "opacity-50",
+      unavailable
+    );
+
+    const label =
+      add.querySelector(
+        "[data-button-label]"
+      );
+
+    if (label) {
+      label.textContent =
+        unavailable
+          ? "Out of Stock"
+          : "Add to Cart";
+    }
+  }
+
+  if (buy) {
+    buy.disabled =
+      unavailable;
+
+    buy.classList.toggle(
+      "opacity-50",
+      unavailable
+    );
+
+    buy.textContent =
+      unavailable
+        ? "Out of Stock"
+        : "Buy Now";
+  }
 }
 
-/* ================================================================
-   PRODUCT ACTIONS
-================================================================ */
-
-function initProductActions() {
+function initActions() {
   document
-    .getElementById("add-to-cart-button")
+    .getElementById(
+      "add-to-cart-button"
+    )
     ?.addEventListener(
       "click",
-      () => addCurrentProductToCart(false)
+      () => {
+        addCurrentProduct(
+          false
+        );
+      }
     );
 
   document
-    .getElementById("wishlist-button")
+    .getElementById(
+      "buy-now-button"
+    )
     ?.addEventListener(
       "click",
-      toggleCurrentProductWishlist
+      () => {
+        addCurrentProduct(
+          true
+        );
+      }
     );
 
   document
-    .getElementById("buy-now-button")
+    .getElementById(
+      "wishlist-button"
+    )
     ?.addEventListener(
       "click",
-      () => addCurrentProductToCart(true)
+      toggleWishlist
+    );
+
+  document
+    .getElementById(
+      "related-products-container"
+    )
+    ?.addEventListener(
+      "click",
+      async (
+        event
+      ) => {
+        const button =
+          event.target.closest(
+            "button[data-related-add]"
+          );
+
+        if (!button) {
+          return;
+        }
+
+        const uuid =
+          decodeURIComponent(
+            button.dataset
+              .relatedAdd ||
+              ""
+          );
+
+        if (uuid) {
+          await addToCart(
+            uuid,
+            1,
+            button
+          );
+        }
+      }
     );
 }
 
-async function addCurrentProductToCart(
+async function addCurrentProduct(
   redirectToCart
 ) {
   if (
     !currentProduct ||
     !currentProductUuid
   ) {
-    showActionMessage(
+    showMessage(
       "Product information is not ready.",
       "error"
     );
@@ -671,12 +1019,12 @@ async function addCurrentProductToCart(
     return;
   }
 
-  const stock = normalizeStock(
-    currentProduct.stock
-  );
-
-  if (stock <= 0) {
-    showActionMessage(
+  if (
+    toStock(
+      currentProduct.stock
+    ) <= 0
+  ) {
+    showMessage(
       "This product is out of stock.",
       "error"
     );
@@ -684,261 +1032,203 @@ async function addCurrentProductToCart(
     return;
   }
 
-  const token = getAccessToken();
+  const button =
+    redirectToCart
+      ? document.getElementById(
+          "buy-now-button"
+        )
+      : document.getElementById(
+          "add-to-cart-button"
+        );
 
-  if (!token) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  const storedUser = getStoredUser();
-  const userUuid = getUserUuid(storedUser);
-
-  if (!userUuid) {
-    showActionMessage(
-      "Your user information is missing. Please sign in again.",
-      "error"
+  const added =
+    await addToCart(
+      currentProductUuid,
+      selectedQuantity,
+      button
     );
 
-    clearAuthStorage();
+  if (
+    added &&
+    redirectToCart
+  ) {
+    setTimeout(() => {
+      location.href =
+        "cart.html";
+    }, 500);
+  }
+}
 
-    window.setTimeout(() => {
-      window.location.href = "login.html";
-    }, 900);
+async function addToCart(
+  productUuid,
+  quantity,
+  button
+) {
+  if (!getAccessToken()) {
+    saveReturnUrl();
 
-    return;
+    location.href =
+      "login.html";
+
+    return false;
   }
 
-  const actionButton = redirectToCart
-    ? document.getElementById(
-        "buy-now-button"
-      )
-    : document.getElementById(
-        "add-to-cart-button"
-      );
+  const userUuid =
+    getUserUuid(
+      getStoredUser()
+    );
 
-  const originalText =
-    actionButton?.textContent.trim() ||
-    (redirectToCart
-      ? "Buy Now"
-      : "Add to Cart");
+  if (!userUuid) {
+    clearAuthStorage();
+    saveReturnUrl();
 
-  setActionButtonLoading(
-    actionButton,
-    true,
-    redirectToCart
-      ? "Processing..."
-      : "Adding..."
-  );
+    location.href =
+      "login.html";
+
+    return false;
+  }
+
+  const originalHtml =
+    button?.innerHTML ||
+    "";
+
+  const qty =
+    Math.max(
+      1,
+      Number(quantity) ||
+        1
+    );
+
+  if (button) {
+    button.disabled =
+      true;
+
+    button.textContent =
+      "Adding...";
+  }
 
   try {
-    const response = await apiRequest(
+    await apiRequest(
       "/carts/add-item-to-cart",
       {
         method: "POST",
 
         body: JSON.stringify({
           userUuid,
-          productUuid:
-            currentProductUuid,
-          sugarLevel: "NONE",
-          qty: selectedQuantity,
+          productUuid,
+          sugarLevel:
+            "NONE",
+          qty,
         }),
       }
     );
 
-    console.log(
-      "Product detail add-to-cart response:",
-      response
-    );
-
-    showActionMessage(
-      `${selectedQuantity} item(s) added to your cart.`,
+    showMessage(
+      `${qty} item(s) added to your cart.`,
       "success"
     );
 
-    if (actionButton) {
-      actionButton.textContent =
+    if (button) {
+      button.textContent =
         "Added ✓";
+
+      setTimeout(() => {
+        button.disabled =
+          false;
+
+        button.innerHTML =
+          originalHtml;
+      }, 900);
     }
 
-    if (redirectToCart) {
-      window.setTimeout(() => {
-        window.location.href = "cart.html";
-      }, 600);
-
-      return;
-    }
-
-    window.setTimeout(() => {
-      setActionButtonLoading(
-        actionButton,
-        false,
-        originalText
-      );
-    }, 1200);
+    return true;
   } catch (error) {
     console.error(
-      "Unable to add product to cart:",
+      "Add to cart error:",
       error
     );
 
-    showActionMessage(
+    showMessage(
       error.message ||
-        "Unable to add this product to your cart.",
+        "Unable to add product.",
       "error"
     );
 
-    setActionButtonLoading(
-      actionButton,
-      false,
-      originalText
-    );
-  }
-}
+    if (button) {
+      button.disabled =
+        false;
 
-function configureActionButtons(stock) {
-  const addButton =
-    document.getElementById(
-      "add-to-cart-button"
-    );
-
-  const buyNowButton =
-    document.getElementById(
-      "buy-now-button"
-    );
-
-  const isUnavailable = stock <= 0;
-
-  if (addButton) {
-    addButton.disabled = isUnavailable;
-
-    addButton.classList.toggle(
-      "cursor-not-allowed",
-      isUnavailable
-    );
-
-    addButton.classList.toggle(
-      "opacity-50",
-      isUnavailable
-    );
-
-    addButton.lastChild.textContent =
-      isUnavailable
-        ? " Out of Stock"
-        : " Add to Cart";
-  }
-
-  if (buyNowButton) {
-    buyNowButton.disabled =
-      isUnavailable;
-
-    buyNowButton.classList.toggle(
-      "cursor-not-allowed",
-      isUnavailable
-    );
-
-    buyNowButton.classList.toggle(
-      "opacity-50",
-      isUnavailable
-    );
-
-    buyNowButton.textContent =
-      isUnavailable
-        ? "Out of Stock"
-        : "Buy Now";
-  }
-}
-
-function disableProductActions() {
-  [
-    "add-to-cart-button",
-    "wishlist-button",
-    "buy-now-button",
-    "decrease-quantity",
-    "increase-quantity",
-    "product-quantity",
-  ].forEach((id) => {
-    const element =
-      document.getElementById(id);
-
-    if (element) {
-      element.disabled = true;
-      element.classList.add(
-        "cursor-not-allowed",
-        "opacity-50"
-      );
+      button.innerHTML =
+        originalHtml;
     }
-  });
-}
 
-function setActionButtonLoading(
-  button,
-  loading,
-  text
-) {
-  if (!button) {
-    return;
+    return false;
   }
-
-  button.disabled = loading;
-  button.textContent = text;
 }
 
-/* ================================================================
-   WISHLIST
-================================================================ */
+function saveReturnUrl() {
+  sessionStorage.setItem(
+    "cartoraReturnUrl",
+    location.pathname +
+      location.search +
+      location.hash
+  );
+}
 
 function getWishlist() {
   try {
-    const wishlist = JSON.parse(
-      localStorage.getItem(
-        WISHLIST_STORAGE_KEY
-      ) || "[]"
-    );
+    const value =
+      JSON.parse(
+        localStorage.getItem(
+          WISHLIST_STORAGE_KEY
+        ) || "[]"
+      );
 
-    return Array.isArray(wishlist)
-      ? wishlist
+    return Array.isArray(
+      value
+    )
+      ? value
       : [];
-  } catch (error) {
-    console.error(
-      "Unable to read wishlist:",
-      error
-    );
-
+  } catch {
     return [];
   }
 }
 
-function toggleCurrentProductWishlist() {
+function toggleWishlist() {
   if (!currentProductUuid) {
     return;
   }
 
-  const wishlist = getWishlist();
+  const wishlist =
+    getWishlist();
 
-  const exists = wishlist.includes(
-    currentProductUuid
-  );
+  const exists =
+    wishlist.includes(
+      currentProductUuid
+    );
 
-  const nextWishlist = exists
-    ? wishlist.filter(
-        (uuid) =>
-          uuid !== currentProductUuid
-      )
-    : [
-        ...wishlist,
-        currentProductUuid,
-      ];
+  const next =
+    exists
+      ? wishlist.filter(
+          (uuid) =>
+            uuid !==
+            currentProductUuid
+        )
+      : [
+          ...wishlist,
+          currentProductUuid,
+        ];
 
   localStorage.setItem(
     WISHLIST_STORAGE_KEY,
-    JSON.stringify(nextWishlist)
+    JSON.stringify(next)
   );
 
-  updateWishlistButton(!exists);
+  updateWishlistButton(
+    !exists
+  );
 
-  showActionMessage(
+  showMessage(
     exists
       ? "Product removed from wishlist."
       : "Product added to wishlist.",
@@ -946,15 +1236,17 @@ function toggleCurrentProductWishlist() {
   );
 }
 
-function restoreWishlistState() {
-  const wishlist = getWishlist();
-
+function restoreWishlist() {
   updateWishlistButton(
-    wishlist.includes(currentProductUuid)
+    getWishlist().includes(
+      currentProductUuid
+    )
   );
 }
 
-function updateWishlistButton(isActive) {
+function updateWishlistButton(
+  active
+) {
   const button =
     document.getElementById(
       "wishlist-button"
@@ -966,168 +1258,194 @@ function updateWishlistButton(isActive) {
 
   button.setAttribute(
     "aria-pressed",
-    String(isActive)
+    String(active)
   );
 
   button.classList.toggle(
     "bg-gray-200",
-    !isActive
+    !active
   );
 
   button.classList.toggle(
     "text-gray-700",
-    !isActive
+    !active
   );
 
   button.classList.toggle(
     "bg-rose-100",
-    isActive
+    active
   );
 
   button.classList.toggle(
     "text-rose-600",
-    isActive
+    active
   );
 }
 
-/* ================================================================
-   STATUS MESSAGES
-================================================================ */
-
-function showActionMessage(
+function showMessage(
   message,
   type = "success"
 ) {
-  const actionMessage =
+  const element =
     document.getElementById(
       "product-action-message"
     );
 
-  if (!actionMessage) {
+  if (!element) {
     return;
   }
 
-  window.clearTimeout(messageTimer);
+  clearTimeout(
+    messageTimer
+  );
 
-  actionMessage.textContent = message;
+  element.textContent =
+    message;
 
-  actionMessage.classList.remove(
+  element.classList.remove(
     "hidden",
     "text-green-600",
     "text-red-600"
   );
 
-  actionMessage.classList.add(
+  element.classList.add(
     type === "error"
       ? "text-red-600"
       : "text-green-600"
   );
 
-  messageTimer = window.setTimeout(() => {
-    actionMessage.classList.add("hidden");
-  }, 3500);
+  messageTimer =
+    setTimeout(() => {
+      element.classList.add(
+        "hidden"
+      );
+    }, 3500);
 }
 
-/* ================================================================
-   LOADING STATE
-================================================================ */
-
-function setProductLoading(isLoading) {
+function setLoading(
+  loading
+) {
   const title =
-    document.getElementById("product-title");
+    document.getElementById(
+      "product-title"
+    );
 
-  const mainImage =
+  const image =
     document.getElementById(
       "main-product-image"
     );
 
-  if (isLoading) {
+  if (loading) {
     if (title) {
       title.textContent =
         "Loading product...";
     }
 
-    if (mainImage) {
-      mainImage.classList.add(
+    image?.classList.add(
+      "opacity-50"
+    );
+  } else {
+    image?.classList.remove(
+      "opacity-50"
+    );
+  }
+}
+
+function disableActions() {
+  [
+    "add-to-cart-button",
+    "wishlist-button",
+    "buy-now-button",
+    "decrease-quantity",
+    "increase-quantity",
+    "product-quantity",
+  ].forEach((id) => {
+    const element =
+      document.getElementById(
+        id
+      );
+
+    if (element) {
+      element.disabled =
+        true;
+
+      element.classList.add(
         "opacity-50"
       );
     }
-
-    return;
-  }
-
-  mainImage?.classList.remove(
-    "opacity-50"
-  );
+  });
 }
 
-/* ================================================================
-   MOBILE MENU
-================================================================ */
-
 function initMobileMenu() {
-  const menuToggle =
-    document.getElementById("menuToggle");
+  const toggle =
+    document.getElementById(
+      "menuToggle"
+    );
 
-  const mobileMenu =
-    document.getElementById("mobileMenu");
+  const menu =
+    document.getElementById(
+      "mobileMenu"
+    );
 
-  if (!menuToggle || !mobileMenu) {
-    return;
-  }
-
-  menuToggle.addEventListener(
+  toggle?.addEventListener(
     "click",
     () => {
-      const isHidden =
-        mobileMenu.classList.toggle(
+      const hidden =
+        menu?.classList.toggle(
           "hidden"
-        );
+        ) ?? true;
 
-      menuToggle.setAttribute(
+      toggle.setAttribute(
         "aria-expanded",
-        String(!isHidden)
+        String(!hidden)
       );
     }
   );
 }
 
-/* ================================================================
-   UTILITIES
-================================================================ */
-
-function getUserUuid(userData) {
+function getUserUuid(user) {
   return (
-    userData?.uuid ||
-    userData?.data?.uuid ||
-    userData?.user?.uuid ||
-    userData?.data?.user?.uuid ||
-    userData?.payload?.uuid ||
-    userData?.payload?.user?.uuid ||
+    user?.uuid ||
+    user?.userUuid ||
+    user?.data?.uuid ||
+    user?.data?.userUuid ||
+    user?.user?.uuid ||
+    user?.data?.user?.uuid ||
+    user?.payload?.uuid ||
+    user?.payload?.user?.uuid ||
     null
   );
 }
 
-function normalizePrice(value) {
-  const price = Number(value);
+function toPrice(value) {
+  const number =
+    Number(value);
 
-  return Number.isFinite(price)
-    ? Math.max(price, 0)
-    : 0;
-}
-
-function normalizeStock(value) {
-  const stock = Number(value);
-
-  return Number.isFinite(stock)
+  return Number.isFinite(
+    number
+  )
     ? Math.max(
-        Math.floor(stock),
+        number,
         0
       )
     : 0;
 }
 
-function formatCurrency(value) {
+function toStock(value) {
+  const number =
+    Number(value);
+
+  return Number.isFinite(
+    number
+  )
+    ? Math.max(
+        Math.floor(number),
+        0
+      )
+    : 0;
+}
+
+function formatMoney(value) {
   return new Intl.NumberFormat(
     "en-US",
     {
@@ -1139,9 +1457,24 @@ function formatCurrency(value) {
 
 function escapeHtml(value) {
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 }
