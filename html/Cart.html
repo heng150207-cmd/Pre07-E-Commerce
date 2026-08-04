@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart</title>
+  <link rel="stylesheet" href="./src/output.css">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="bg-[#f5f1eb] font-sans text-gray-800 p-4 sm:p-6 md:p-10 min-h-screen flex justify-center items-center">
+
+  <!-- Main Container -->
+  <div class="w-full max-w-xl space-y-6">
+
+    <!-- Your Cart Card -->
+    <section class="bg-white rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-100">
+      <h1 class="text-2xl font-bold text-[#8b72f6] mb-6">Your Cart</h1>
+
+      <!-- Table Header (Hidden on small mobile screens for clean responsive layout) -->
+      <div class="hidden sm:grid grid-cols-12 text-[11px] font-semibold text-gray-400 pb-3 border-b border-gray-200 text-center uppercase tracking-wider">
+        <div class="col-span-5 text-left pl-2">Product</div>
+        <div class="col-span-2">Price</div>
+        <div class="col-span-3">Quantity</div>
+        <div class="col-span-2">Sub Total</div>
+      </div>
+
+      <!-- Dynamic Items Container -->
+      <div id="cart-items-container" class="divide-y divide-gray-200">
+        <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- Order Summary Card -->
+    <section class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+      <h2 class="text-2xl font-bold text-[#8b72f6] mb-6">Order Summary</h2>
+      <div class="space-y-4">
+        <div class="flex justify-between items-center pb-4 border-b border-gray-200">
+          <span class="text-sm font-medium text-gray-700">Subtotal</span>
+          <span id="summary-subtotal" class="text-lg font-bold text-gray-900">0$</span>
+        </div>
+        <div class="flex justify-between items-center pt-1">
+          <span class="text-sm font-medium text-gray-700">Total</span>
+          <span id="summary-total" class="text-lg font-bold text-gray-900">0$</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Separate JS File -->
+  <script src="../javascript/cart.js"></script>
+</body>
+</html>
