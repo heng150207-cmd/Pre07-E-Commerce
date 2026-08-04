@@ -1,9 +1,21 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>About-Us</title>
+
+    <script>
+      (() => {
+        const savedTheme = localStorage.getItem("cartoraTheme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+
     <!-- Tailwind CSS link -->
     <link rel="stylesheet" href="../src/output.css" />
     <!-- Font Link -->
@@ -18,67 +30,308 @@
     />
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     
+  
+    <style>
+      html {
+        color-scheme: light;
+      }
+
+      html.dark {
+        color-scheme: dark;
+      }
+
+      body,
+      header,
+      main,
+      section,
+      footer,
+      div,
+      input,
+      textarea,
+      button,
+      a,
+      p,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      span,
+      label {
+        transition:
+          background-color 220ms ease,
+          color 220ms ease,
+          border-color 220ms ease;
+      }
+
+      html.dark body {
+        background-color: #0f172a !important;
+        color: #e5e7eb !important;
+      }
+
+      html.dark header,
+      html.dark .bg-white {
+        background-color: #172033 !important;
+        border-color: #334155 !important;
+      }
+
+      html.dark .bg-gray-100 {
+        background-color: #243047 !important;
+      }
+
+      html.dark .text-gray-900,
+      html.dark .text-gray-800,
+      html.dark .text-gray-700 {
+        color: #f8fafc !important;
+      }
+
+      html.dark .text-gray-600,
+      html.dark .text-gray-500 {
+        color: #cbd5e1 !important;
+      }
+
+      html.dark .border-gray-100,
+      html.dark .border-gray-200,
+      html.dark .border-gray-300,
+      html.dark .border {
+        border-color: #334155 !important;
+      }
+
+      html.dark input,
+      html.dark textarea {
+        background-color: #243047 !important;
+        color: #f8fafc !important;
+        border-color: #475569 !important;
+      }
+
+      html.dark input::placeholder,
+      html.dark textarea::placeholder {
+        color: #94a3b8 !important;
+      }
+
+      html.dark .shadow,
+      html.dark .shadow-sm,
+      html.dark .shadow-md,
+      html.dark .shadow-lg,
+      html.dark .shadow-xl {
+        box-shadow: 0 18px 45px rgb(0 0 0 / 0.28) !important;
+      }
+
+      html.dark footer {
+        background-color: #020617 !important;
+      }
+
+      html.dark #darkModeToggle,
+      html.dark #mobileDarkModeToggle {
+        color: #fde68a !important;
+      }
+    </style>
+
   </head>
 
   <body class="bg-[#F9F5F3] dark:bg-gray-900 dark:text-white">
 <!-- ================= NAVBAR ================= -->
-<header class="sticky top-2 z-50 w-[95%] mx-auto mt-[0.5%] bg-white rounded-3xl border border-gray-200 shadow-xl">
-  <div class="h-[70px] md:h-[95px] flex items-center justify-between px-4 sm:px-6 md:px-10">
-
+<header
+  class="sticky top-2 z-50 mx-auto mt-2 w-[95%]
+         rounded-3xl border border-gray-200 bg-white
+         shadow-xl transition-colors"
+>
+  <div
+    class="flex h-[70px] items-center justify-between
+           px-4 sm:px-6 md:h-[95px] md:px-10"
+  >
     <!-- Logo + links -->
     <div class="flex items-center gap-4 md:gap-14">
-      <span class="font-serif text-2xl sm:text-3xl md:text-[36px] tracking-wide text-gray-900"><a href="../index.html">CARTORA</a></span>
-      <span class="hidden md:block h-6 w-px bg-gray-200"></span>
+      <a
+        href="../index.html"
+        class="font-serif text-2xl tracking-wide
+               text-gray-900 sm:text-3xl md:text-[36px]"
+      >
+        CARTORA
+      </a>
 
-      <nav class="hidden md:flex items-center gap-16 text-x font-medium tracking-wide text-gray-700">
-        <a href="product-page.html" class="hover:text-brand-purple transition-colors">Products</a>
-        <a href="about.html" class="hover:text-brand-purple transition-colors">About Us</a>
+      <span class="hidden h-6 w-px bg-gray-200 md:block"></span>
+
+      <nav
+        class="hidden items-center gap-16 text-base
+               font-medium tracking-wide text-gray-700 md:flex"
+        aria-label="Primary navigation"
+      >
+        <a
+          href="product-page.html"
+          class="transition-colors hover:text-brand-purple"
+        >
+          Products
+        </a>
+
+        <a
+          href="about.html"
+          class="transition-colors hover:text-brand-purple"
+        >
+          About Us
+        </a>
       </nav>
     </div>
-    
-    <!-- Right cluster -->
-    <div class="flex items-center gap-3 sm:gap-5 md:gap-10">
 
-      <label class="hidden md:flex items-center gap-3 bg-gray-100 rounded-2xl px-6 py-4 w-56 lg:w-96">
-        <input type="text" placeholder="search......"
-          class="bg-transparent outline-none text-sm w-full placeholder-gray-400" />
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Right cluster -->
+    <div class="flex items-center gap-3 sm:gap-5 md:gap-8">
+      <!-- Search -->
+      <label
+        class="hidden items-center gap-3 rounded-2xl
+               bg-gray-100 px-6 py-4 md:flex
+               md:w-56 lg:w-80 xl:w-96"
+      >
+        <span class="sr-only">Search products</span>
+
+        <input
+          type="search"
+          placeholder="Search..."
+          class="w-full bg-transparent text-sm
+                 outline-none placeholder:text-gray-400"
+        >
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 shrink-0 text-gray-400"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
           <circle cx="11" cy="11" r="7"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
       </label>
 
-      <button class="hidden md:inline-flex text-gray-800 hover:text-brand-purple transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"></path>
+      <!-- Wishlist -->
+      <a
+        href="wishlist.html"
+        aria-label="Wishlist"
+        class="hidden text-gray-800 transition-colors
+               hover:text-brand-purple md:inline-flex"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-8"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path
+            d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0
+               L12 5.6l-1-1a5.5 5.5 0 0 0-7.8
+               7.8l1 1L12 21l7.8-7.6 1-1
+               a5.5 5.5 0 0 0 0-7.8z"
+          ></path>
         </svg>
-      </button>
+      </a>
 
-      <button class="text-gray-800 hover:text-brand-purple transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 md:w-8 md:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Cart -->
+      <a
+        href="cart.html"
+        aria-label="Cart"
+        class="text-gray-800 transition-colors
+               hover:text-brand-purple"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 md:h-8 md:w-8"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
           <circle cx="9" cy="21" r="1"></circle>
           <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"></path>
+
+          <path
+            d="M1 1h4l2.7 13.4
+               a2 2 0 0 0 2 1.6h9.7
+               a2 2 0 0 0 2-1.6L23 6H6"
+          ></path>
         </svg>
+      </a>
+
+      <!-- Login / current user -->
+      <div id="navbar-auth">
+        <a
+          href="login.html"
+          class="hidden items-center gap-1.5
+                 text-base text-gray-800
+                 transition-colors
+                 hover:text-brand-purple md:flex"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-8 w-8"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="M20 21v-2a4 4 0 0 0-4-4H8
+                 a4 4 0 0 0-4 4v2"
+            ></path>
+
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+
+          <span>Login</span>
+        </a>
+      </div>
+
+      <!-- Dark mode -->
+      <button
+        id="darkModeToggle"
+        type="button"
+        class="hidden items-center justify-center
+               text-gray-800 transition-colors
+               hover:text-brand-purple md:inline-flex"
+        aria-label="Switch to dark mode"
+        aria-pressed="false"
+      >
+        <i
+          class="fa-solid fa-moon text-2xl"
+          aria-hidden="true"
+        ></i>
       </button>
 
-      <button class="hidden md:flex items-center gap-1.5 text-base text-gray-800 hover:text-brand-purple transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-        Login
-      </button>
-
-      <button class="hidden md:inline-flex text-gray-800 hover:text-brand-purple transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </button>
-
-      <!-- Hamburger toggle: tablet + phone only -->
-      <button id="menuToggle" aria-label="Open menu" aria-expanded="false" class="md:hidden text-gray-800 hover:text-brand-purple transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Mobile menu toggle -->
+      <button
+        id="menuToggle"
+        type="button"
+        aria-label="Open menu"
+        aria-controls="mobileMenu"
+        aria-expanded="false"
+        class="text-gray-800 transition-colors
+               hover:text-brand-purple md:hidden"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-7 w-7"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="12" x2="21" y2="12"></line>
           <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -87,28 +340,126 @@
     </div>
   </div>
 
-  <!-- Mobile / tablet dropdown menu -->
-  <div id="mobileMenu" class="hidden md:hidden border-t border-gray-100 px-5 py-5 space-y-5">
-    <label class="flex items-center gap-3 bg-gray-100 rounded-2xl px-4 py-3">
-      <input type="text" placeholder="search......"
-        class="bg-transparent outline-none text-sm w-full placeholder-gray-400" />
-      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Mobile / tablet dropdown -->
+  <div
+    id="mobileMenu"
+    class="hidden space-y-5 border-t border-gray-100
+           px-5 py-5 md:hidden"
+  >
+    <!-- Mobile search -->
+    <label
+      class="flex items-center gap-3 rounded-2xl
+             bg-gray-100 px-4 py-3"
+    >
+      <span class="sr-only">Search products</span>
+
+      <input
+        type="search"
+        placeholder="Search..."
+        class="w-full bg-transparent text-sm
+               outline-none placeholder:text-gray-400"
+      >
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4 shrink-0 text-gray-400"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
         <circle cx="11" cy="11" r="7"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
     </label>
 
-    <nav class="flex flex-col gap-4 text-base font-medium tracking-wide text-gray-700">
-      <a href="#" class="hover:text-brand-purple transition-colors">Products</a>
-      <a href="#" class="hover:text-brand-purple transition-colors">About Us</a>
-      <a href="#" class="flex items-center gap-2 hover:text-brand-purple transition-colors">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-        Login
+    <nav
+      class="flex flex-col gap-4 text-base
+             font-medium tracking-wide text-gray-700"
+      aria-label="Mobile navigation"
+    >
+      <a
+        href="product-page.html"
+        class="transition-colors hover:text-brand-purple"
+      >
+        Products
       </a>
+
+      <a
+        href="about.html"
+        class="transition-colors hover:text-brand-purple"
+      >
+        About Us
+      </a>
+
+      <a
+        href="wishlist.html"
+        class="transition-colors hover:text-brand-purple"
+      >
+        Wishlist
+      </a>
+
+      <a
+        href="cart.html"
+        class="transition-colors hover:text-brand-purple"
+      >
+        Cart
+      </a>
+
+      <!-- Mobile Login / current user -->
+      <div id="mobile-navbar-auth">
+        <a
+          href="login.html"
+          class="flex items-center gap-2
+                 transition-colors
+                 hover:text-brand-purple"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="M20 21v-2a4 4 0 0 0-4-4H8
+                 a4 4 0 0 0-4 4v2"
+            ></path>
+
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+
+          <span>Login</span>
+        </a>
+      </div>
     </nav>
+
+    <!-- Mobile dark mode -->
+    <button
+      id="mobileDarkModeToggle"
+      type="button"
+      class="flex w-full items-center gap-3
+             rounded-xl px-3 py-2 text-left
+             text-base font-medium text-gray-700
+             transition-colors hover:bg-gray-100
+             hover:text-brand-purple"
+      aria-label="Switch to dark mode"
+      aria-pressed="false"
+    >
+      <i
+        class="fa-solid fa-moon text-lg"
+        aria-hidden="true"
+      ></i>
+
+      <span>Dark mode</span>
+    </button>
   </div>
 </header>
     <!-- main -->
@@ -805,5 +1156,73 @@
   AOS.init();
 </script>
 
+  
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const root = document.documentElement;
+    const desktopToggle = document.getElementById("darkModeToggle");
+    const mobileToggle = document.getElementById("mobileDarkModeToggle");
+    const menuToggle = document.getElementById("menuToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    function updateThemeButtons() {
+      const isDark = root.classList.contains("dark");
+
+      [desktopToggle, mobileToggle].forEach((button) => {
+        if (!button) {
+          return;
+        }
+
+        button.setAttribute("aria-pressed", String(isDark));
+        button.setAttribute(
+          "aria-label",
+          isDark ? "Switch to light mode" : "Switch to dark mode"
+        );
+
+        const icon = button.querySelector("i");
+
+        if (icon) {
+          icon.classList.toggle("fa-moon", !isDark);
+          icon.classList.toggle("fa-sun", isDark);
+        }
+
+        const label = button.querySelector("span");
+
+        if (label) {
+          label.textContent = isDark ? "Light mode" : "Dark mode";
+        }
+      });
+    }
+
+    function toggleTheme() {
+      const isDark = root.classList.toggle("dark");
+
+      localStorage.setItem(
+        "cartoraTheme",
+        isDark ? "dark" : "light"
+      );
+
+      updateThemeButtons();
+    }
+
+    desktopToggle?.addEventListener("click", toggleTheme);
+    mobileToggle?.addEventListener("click", toggleTheme);
+
+    menuToggle?.addEventListener("click", () => {
+      if (!mobileMenu) {
+        return;
+      }
+
+      const willOpen = mobileMenu.classList.contains("hidden");
+      mobileMenu.classList.toggle("hidden");
+      menuToggle.setAttribute("aria-expanded", String(willOpen));
+    });
+
+    updateThemeButtons();
+  });
+</script>
+<script src="../js/api.js" defer></script>
+<script src="../js/auth-ui.js" defer></script>
+<script src="../js/product-page.js" defer></script>
   </body>
 </html>

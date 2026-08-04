@@ -1,73 +1,54 @@
+"use strict";
+
 // ================================================================
 // auth.js
-// Local authentication demo and authentication page animations
+// Martify API authentication for login.html
+// api.js must be loaded before this file.
 // ================================================================
 
-const STORAGE_KEY_USERS = "cartoraUsers";
-const STORAGE_KEY_SESSION = "cartoraSession";
+const HOME_PAGE_URL = "../index.html";
 
-const SIGNIN_PAGE = "signin.html";
-const HOME_PAGE = "index.html";
+document.addEventListener("DOMContentLoaded", () => {
+  initAuthForms();
+});
 
-/* ----------------------------------------------------------------
-   Local storage helpers
----------------------------------------------------------------- */
+/* ================================================================
+   INITIALIZATION
+================================================================ */
 
-function getStoredUsers() {
-  try {
-    const rawUsers = localStorage.getItem(STORAGE_KEY_USERS);
+function initAuthForms() {
+  const signupForm =
+    document.getElementById("signup-form");
 
-    if (!rawUsers) {
-      return [];
-    }
+  const signinForm =
+    document.getElementById("signin-form");
 
-    const parsedUsers = JSON.parse(rawUsers);
+  signupForm?.addEventListener(
+    "submit",
+    handleSignup
+  );
 
-    return Array.isArray(parsedUsers) ? parsedUsers : [];
-  } catch (error) {
-    console.error("Failed to read stored users:", error);
-    return [];
-  }
+  signinForm?.addEventListener(
+    "submit",
+    handleSignin
+  );
 }
 
-function saveUsers(users) {
-  try {
-    localStorage.setItem(STORAGE_KEY_USERS, JSON.stringify(users));
-    return true;
-  } catch (error) {
-    console.error("Failed to save users:", error);
-    return false;
-  }
+/* ================================================================
+   MESSAGES
+================================================================ */
+
+function getMessageContainer(type) {
+  return document.getElementById(
+    `${type}-message`
+  );
 }
 
-function saveSession(user) {
-  try {
-    const session = {
-      name: user.name,
-      email: user.email,
-    };
-
-    localStorage.setItem(
-      STORAGE_KEY_SESSION,
-      JSON.stringify(session)
-    );
-
-    return true;
-  } catch (error) {
-    console.error("Failed to save session:", error);
-    return false;
-  }
-}
-
-/* ----------------------------------------------------------------
-   Message helpers
----------------------------------------------------------------- */
-
-function getMessageContainer(formType) {
-  return document.getElementById(`${formType}-message`);
-}
-
-function showMessage(container, text, type = "error") {
+function showMessage(
+  container,
+  text,
+  type = "error"
+) {
   if (!container) {
     return;
   }
@@ -102,16 +83,25 @@ function clearMessage(container) {
   container.classList.add("hidden");
 }
 
-/* ----------------------------------------------------------------
-   Validation helpers
----------------------------------------------------------------- */
+/* ================================================================
+   VALIDATION
+================================================================ */
 
 function isValidEmail(email) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+    email
+  );
 }
 
-function setFormLoading(form, isLoading) {
+/* ================================================================
+   FORM LOADING
+================================================================ */
+
+function setFormLoading(
+  form,
+  isLoading,
+  loadingText
+) {
   if (!form) {
     return;
   }
@@ -124,51 +114,197 @@ function setFormLoading(form, isLoading) {
     return;
   }
 
+  if (!submitButton.dataset.originalText) {
+    submitButton.dataset.originalText =
+      submitButton.textContent.trim();
+  }
+
   submitButton.disabled = isLoading;
-  submitButton.classList.toggle("opacity-60", isLoading);
-  submitButton.classList.toggle(
-    "cursor-not-allowed",
-    isLoading
+
+  submitButton.textContent = isLoading
+    ? loadingText
+    : submitButton.dataset.originalText;
+}
+
+/* ================================================================
+   PANEL SWITCHING
+================================================================ */
+
+function switchToSigninPanel(email = "") {
+  const authCard =
+    document.getElementById("authCard");
+
+  const signinEmailInput =
+    document.getElementById(
+      "signin-email"
+    );
+
+  authCard?.classList.remove(
+    "right-panel-active"
+  );
+
+  if (signinEmailInput && email) {
+    signinEmailInput.value = email;
+  }
+
+  window.setTimeout(() => {
+    signinEmailInput?.focus();
+  }, 300);
+}
+
+/* ================================================================
+   RESPONSE HELPERS
+================================================================ */
+
+function findToken(response) {
+  const possibleTokens = [
+    response?.accessToken,
+    response?.token,
+    response?.data?.accessToken,
+    response?.data?.token,
+    response?.data?.data?.accessToken,
+    response?.data?.data?.token,
+    response?.payload?.accessToken,
+    response?.payload?.token,
+  ];
+
+  return (
+    possibleTokens.find(
+      (value) =>
+        typeof value === "string" &&
+        value.trim()
+    ) || null
   );
 }
 
-/* ----------------------------------------------------------------
-   Signup
----------------------------------------------------------------- */
+function findUser(response) {
+  const possibleUsers = [
+    response?.user,
+    response?.data?.user,
+    response?.data?.data?.user,
+    response?.payload?.user,
+    response?.data,
+    response?.data?.data,
+    response?.payload,
+    response,
+  ];
 
-function handleSignup(event) {
+  return (
+    possibleUsers.find((value) => {
+      return (
+        value &&
+        typeof value === "object" &&
+        !Array.isArray(value) &&
+        (
+          value.uuid ||
+          value.userUuid ||
+          value.email ||
+          value.username
+        )
+      );
+    }) || null
+  );
+}
+
+function findUserUuid(user) {
+  return (
+    user?.uuid ||
+    user?.userUuid ||
+    user?.data?.uuid ||
+    user?.user?.uuid ||
+    null
+  );
+}
+
+function normalizeUser(user) {
+  if (
+    !user ||
+    typeof user !== "object" ||
+    Array.isArray(user)
+  ) {
+    return null;
+  }
+
+  const uuid = findUserUuid(user);
+
+  if (!uuid) {
+    return null;
+  }
+
+  return {
+    ...user,
+    uuid,
+  };
+}
+
+/* ================================================================
+   SIGNUP
+================================================================ */
+
+async function handleSignup(event) {
   event.preventDefault();
 
   const form = event.currentTarget;
-  const nameInput =
-    document.getElementById("signup-name");
-  const emailInput =
-    document.getElementById("signup-email");
-  const passwordInput =
-    document.getElementById("signup-password");
-  const message = getMessageContainer("signup");
+
+  const message =
+    getMessageContainer("signup");
 
   clearMessage(message);
 
-  if (!nameInput || !emailInput || !passwordInput) {
+  const firstName = document
+    .getElementById("signup-firstname")
+    ?.value.trim();
+
+  const lastName = document
+    .getElementById("signup-lastname")
+    ?.value.trim();
+
+  const username = document
+    .getElementById("signup-username")
+    ?.value.trim();
+
+  const phone = document
+    .getElementById("signup-phone")
+    ?.value.trim();
+
+  const email = document
+    .getElementById("signup-email")
+    ?.value.trim()
+    .toLowerCase();
+
+  const password =
+    document.getElementById(
+      "signup-password"
+    )?.value;
+
+  const confirmPassword =
+    document.getElementById(
+      "signup-confirm-password"
+    )?.value;
+
+  if (
+    !firstName ||
+    !lastName ||
+    !username ||
+    !phone ||
+    !email ||
+    !password ||
+    !confirmPassword
+  ) {
     showMessage(
       message,
-      "Signup form is not configured correctly."
+      "Please fill in all fields."
     );
-    return;
-  }
 
-  const name = nameInput.value.trim();
-  const email = emailInput.value.trim().toLowerCase();
-  const password = passwordInput.value;
-
-  if (!name || !email || !password) {
-    showMessage(message, "Please fill in all fields.");
     return;
   }
 
   if (!isValidEmail(email)) {
-    showMessage(message, "Please enter a valid email.");
+    showMessage(
+      message,
+      "Please enter a valid email."
+    );
+
     return;
   }
 
@@ -177,272 +313,229 @@ function handleSignup(event) {
       message,
       "Password must be at least 6 characters."
     );
+
     return;
   }
 
-  const users = getStoredUsers();
-
-  const existingUser = users.find(
-    (user) => user.email === email
-  );
-
-  if (existingUser) {
+  if (password !== confirmPassword) {
     showMessage(
       message,
-      "This email is already registered. Try signing in instead."
+      "Passwords do not match."
     );
+
     return;
   }
 
-  setFormLoading(form, true);
-
-  const newUser = {
-    name,
-    email,
-    password,
-  };
-
-  users.push(newUser);
-
-  const savedSuccessfully = saveUsers(users);
-
-  if (!savedSuccessfully) {
-    showMessage(
-      message,
-      "Unable to create your account. Please try again."
-    );
-
-    setFormLoading(form, false);
-    return;
-  }
-
-  showMessage(
-    message,
-    "Account created successfully! Redirecting to Sign In...",
-    "success"
+  setFormLoading(
+    form,
+    true,
+    "SIGNING UP..."
   );
 
-  form.reset();
+  try {
+    const response = await apiRequest(
+      "/auth/signup",
+      {
+        method: "POST",
 
-  setTimeout(() => {
-    window.location.href = SIGNIN_PAGE;
-  }, 1200);
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          username,
+          email,
+          password,
+          confirmPassword,
+          phone,
+        }),
+      }
+    );
+
+    console.log(
+      "Signup response:",
+      response
+    );
+
+    showMessage(
+      message,
+      response?.message ||
+        "Account created successfully. You can now sign in.",
+      "success"
+    );
+
+    form.reset();
+
+    window.setTimeout(() => {
+      switchToSigninPanel(email);
+    }, 900);
+  } catch (error) {
+    console.error(
+      "Signup failed:",
+      error
+    );
+
+    showMessage(
+      message,
+      error.message ||
+        "Unable to create account."
+    );
+  } finally {
+    setFormLoading(
+      form,
+      false,
+      "SIGN UP"
+    );
+  }
 }
 
-/* ----------------------------------------------------------------
-   Signin
----------------------------------------------------------------- */
+/* ================================================================
+   SIGNIN
+================================================================ */
 
-function handleSignin(event) {
+async function handleSignin(event) {
   event.preventDefault();
 
   const form = event.currentTarget;
-  const emailInput =
-    document.getElementById("signin-email");
-  const passwordInput =
-    document.getElementById("signin-password");
-  const message = getMessageContainer("signin");
+
+  const message =
+    getMessageContainer("signin");
 
   clearMessage(message);
 
-  if (!emailInput || !passwordInput) {
-    showMessage(
-      message,
-      "Signin form is not configured correctly."
-    );
-    return;
-  }
+  const email = document
+    .getElementById("signin-email")
+    ?.value.trim()
+    .toLowerCase();
 
-  const email = emailInput.value.trim().toLowerCase();
-  const password = passwordInput.value;
+  const password =
+    document.getElementById(
+      "signin-password"
+    )?.value;
 
   if (!email || !password) {
     showMessage(
       message,
       "Please enter your email and password."
     );
+
     return;
   }
 
-  setFormLoading(form, true);
-
-  const users = getStoredUsers();
-
-  const user = users.find(
-    (storedUser) => storedUser.email === email
-  );
-
-  if (!user || user.password !== password) {
-    showMessage(message, "Invalid email or password.");
-    setFormLoading(form, false);
-    return;
-  }
-
-  const sessionSaved = saveSession(user);
-
-  if (!sessionSaved) {
+  if (!isValidEmail(email)) {
     showMessage(
       message,
-      "Unable to start your session. Please try again."
+      "Please enter a valid email."
     );
 
-    setFormLoading(form, false);
     return;
   }
 
-  showMessage(
-    message,
-    "Sign in successful! Redirecting...",
-    "success"
+  setFormLoading(
+    form,
+    true,
+    "SIGNING IN..."
   );
 
-  form.reset();
+  try {
+    clearAuthStorage();
 
-  setTimeout(() => {
-    window.location.href = HOME_PAGE;
-  }, 1100);
-}
+    const response = await apiRequest(
+      "/auth/login",
+      {
+        method: "POST",
 
-/* ----------------------------------------------------------------
-   Authentication card animation
----------------------------------------------------------------- */
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      }
+    );
 
-function getAuthCardElement() {
-  return (
-    document.getElementById("auth-card") ||
-    document.getElementById("authCard")
-  );
-}
+    console.log(
+      "Login response:",
+      response
+    );
 
-function initCardAnimation() {
-  const authCard = getAuthCardElement();
+    const token = findToken(response);
 
-  if (!authCard) {
-    return;
-  }
+    if (!token) {
+      throw new Error(
+        "Login succeeded, but no access token was returned."
+      );
+    }
 
-  requestAnimationFrame(() => {
-    authCard.classList.add("visible");
-  });
-}
+    saveAccessToken(token);
 
-/* ----------------------------------------------------------------
-   Background animations
----------------------------------------------------------------- */
+    let user = normalizeUser(
+      findUser(response)
+    );
 
-function initBackgroundAnimation() {
-  const root = document.documentElement;
+    if (!user) {
+      const meResponse =
+        await apiRequest(
+          "/auth/me",
+          {
+            method: "GET",
+          }
+        );
 
-  function updateBackgroundFromScroll() {
-    const scrollY =
-      window.scrollY || window.pageYOffset;
+      console.log(
+        "Auth me response:",
+        meResponse
+      );
 
-    const x = 50 + Math.sin(scrollY / 160) * 10;
-    const y = 40 + Math.min(scrollY * 0.06, 18);
+      user = normalizeUser(
+        findUser(meResponse)
+      );
+    }
 
-    root.style.setProperty("--bg-x", `${x}%`);
-    root.style.setProperty("--bg-y", `${y}%`);
-  }
+    if (!user) {
+      throw new Error(
+        "Login succeeded, but the user UUID could not be loaded."
+      );
+    }
 
-  function updateBackgroundFromMouse(event) {
-    const x =
-      (event.clientX / window.innerWidth) * 100;
-    const y =
-      (event.clientY / window.innerHeight) * 100;
+    saveUser(user);
 
-    root.style.setProperty("--bg-x", `${x}%`);
-    root.style.setProperty("--bg-y", `${y}%`);
-  }
+    console.log(
+      "Authenticated user saved:",
+      user
+    );
 
-  updateBackgroundFromScroll();
+    console.log(
+      "Authenticated user UUID:",
+      user.uuid
+    );
 
-  window.addEventListener(
-    "scroll",
-    updateBackgroundFromScroll,
-    { passive: true }
-  );
+    showMessage(
+      message,
+      "Sign in successful. Redirecting...",
+      "success"
+    );
 
-  document.addEventListener(
-    "mousemove",
-    updateBackgroundFromMouse
-  );
-}
+    form.reset();
 
-/* ----------------------------------------------------------------
-   Toggle authentication panels
----------------------------------------------------------------- */
+    window.setTimeout(() => {
+      window.location.href =
+        HOME_PAGE_URL;
+    }, 900);
+  } catch (error) {
+    console.error(
+      "Signin failed:",
+      error
+    );
 
-function toggleAuthMode() {
-  const container =
-    document.getElementById("container");
+    clearAuthStorage();
 
-  if (!container) {
-    return;
-  }
-
-  container.classList.toggle("active");
-}
-
-function initAuthToggle() {
-  const container =
-    document.getElementById("container");
-  const toggleButton =
-    document.getElementById("toggle-btn");
-  const registerButton =
-    document.getElementById("registerBtn");
-  const loginButton =
-    document.getElementById("loginBtn");
-
-  if (toggleButton) {
-    toggleButton.addEventListener(
-      "click",
-      toggleAuthMode
+    showMessage(
+      message,
+      error.message ||
+        "Unable to sign in."
+    );
+  } finally {
+    setFormLoading(
+      form,
+      false,
+      "SIGN IN"
     );
   }
-
-  if (registerButton && container) {
-    registerButton.addEventListener("click", () => {
-      container.classList.add("active");
-    });
-  }
-
-  if (loginButton && container) {
-    loginButton.addEventListener("click", () => {
-      container.classList.remove("active");
-    });
-  }
 }
-
-/* ----------------------------------------------------------------
-   Initialize authentication page
----------------------------------------------------------------- */
-
-function initAuthPage() {
-  const signupForm =
-    document.getElementById("signup-form");
-  const signinForm =
-    document.getElementById("signin-form");
-
-  if (signupForm) {
-    signupForm.addEventListener(
-      "submit",
-      handleSignup
-    );
-  }
-
-  if (signinForm) {
-    signinForm.addEventListener(
-      "submit",
-      handleSignin
-    );
-  }
-
-  initAuthToggle();
-  initCardAnimation();
-  initBackgroundAnimation();
-}
-
-document.addEventListener(
-  "DOMContentLoaded",
-  initAuthPage
-);
