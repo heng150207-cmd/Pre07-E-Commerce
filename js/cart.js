@@ -12,6 +12,26 @@ let userUuid = null;
 
 document.addEventListener("DOMContentLoaded", () => {
   initCartPage();
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+
+      const isOpen = !mobileMenu.classList.contains("hidden");
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close menu" : "Open menu"
+      );
+    });
+  }
 });
 
 /* ================================================================
